@@ -46,7 +46,7 @@ public class ConglomeradoService {
     @Path("{id}")
     @Consumes({"application/xml", "application/json"})
     public void edit(@PathParam("id") Integer id, Conglomerado entity) {
-    	entity.setConglomeradoId(id.intValue());
+    	entity.setId(id.intValue());
         conglomeradoFacadeEJB.edit(entity);
     }
 	

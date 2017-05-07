@@ -12,42 +12,42 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import facade.AdminFacade;
-import model.Admin;
+import facade.PartidoFacade;
+import model.Partido;
 
-@Path("/admin")
-public class AdminService {
+@Path("/partido")
+public class PartidoService {
 	
 	@EJB 
-	AdminFacade adminFacadeEJB;
+	PartidoFacade partidoFacadeEJB;
 	
-	Logger logger = Logger.getLogger(AdminService.class.getName());
+	Logger logger = Logger.getLogger(PartidoService.class.getName());
 	
 	@GET
 	@Produces({"application/xml", "application/json"})
-	public List<Admin> findAll(){
-		return adminFacadeEJB.findAll();
+	public List<Partido> findAll(){
+		return partidoFacadeEJB.findAll();
 	}
 	
 	@GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
-    public Admin find(@PathParam("id") Integer id) {
-        return adminFacadeEJB.find(id);
+    public Partido find(@PathParam("id") Integer id) {
+        return partidoFacadeEJB.find(id);
     }
 	
 	@POST
     @Consumes({"application/xml", "application/json"})
-    public void create(Admin entity) {
-        adminFacadeEJB.create(entity);
+    public void create(Partido entity) {
+        partidoFacadeEJB.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Integer id, Admin entity) {
+    public void edit(@PathParam("id") Integer id, Partido entity) {
     	entity.setId(id.intValue());
-        adminFacadeEJB.edit(entity);
+        partidoFacadeEJB.edit(entity);
     }
 	
 

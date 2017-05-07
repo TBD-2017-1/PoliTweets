@@ -5,13 +5,13 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the conglomerado database table.
+ * The persistent class for the partido database table.
  * 
  */
 @Entity
-@Table(name="conglomerado")
-@NamedQuery(name="Conglomerado.findAll", query="SELECT c FROM conglomerado c")
-public class Conglomerado implements Serializable {
+@Table(name="partido")
+@NamedQuery(name="Partido.findAll", query="SELECT p FROM partido p")
+public class Partido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -24,7 +24,7 @@ public class Conglomerado implements Serializable {
 	@Column(name="cuenta_twitter", nullable=false, unique=true, length=45)
 	private String cuenta_twitter;
 
-	public Conglomerado() {
+	public Partido() {
 	}
 
 	public int getId() {
