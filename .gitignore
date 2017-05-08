@@ -1,7 +1,7 @@
 # intelliJ IDEA configuration files
-.idea/
+.idea/*
 
 # Gradle files
-build/
-.gradle/
-/bin/
+build/*
+.gradle/*
+/bin/*
