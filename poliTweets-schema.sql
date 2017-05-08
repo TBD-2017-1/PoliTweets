@@ -26,11 +26,11 @@ DROP TABLE IF EXISTS `admin`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
-  `username` varchar(45) DEFAULT NULL,
+  `username` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `usuario_UNIQUE` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  UNIQUE KEY (`username`)
+) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,11 +42,78 @@ DROP TABLE IF EXISTS `conglomerado`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `conglomerado` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(45) DEFAULT NULL,
+  `nombre` varchar(45) NOT NULL,
   `cuentaTwitter` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  UNIQUE KEY (`nombre`),
+  UNIQUE KEY (`cuentaTwitter`)
+) ENGINE=InnoDB;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `partido`
+--
+
+DROP TABLE IF EXISTS `partido`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `partido` (
+  `id` int(11) NOT NULL,
+  `idconglomerado` int(11) NOT NULL,
+  `nombre` varchar(45) NOT NULL,
+  `cuentaTwitter` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`nombre`),
+  KEY (`idconglomerado`),
+  FOREIGN KEY (`idconglomerado`) REFERENCES `conglomerado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `politico`
+--
+
+DROP TABLE IF EXISTS `politico`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `politico` (
+  `id` int(11) NOT NULL,
+  `idpartido` int(11) NOT NULL,
+  `nombre` varchar(45) NOT NULL,
+  `apellido` varchar(45) NOT NULL,
+  `cuentaTwitter` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY (`idpartido`),
+  FOREIGN KEY (`idpartido`) REFERENCES `partido` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `keyword`
+--
+
+DROP TABLE IF EXISTS `keyword`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `keyword` (
+  `id` int(11) NOT NULL,
+  `value` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `metrica`
+--
+
+DROP TABLE IF EXISTS `metrica`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `metrica` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,11 +128,11 @@ CREATE TABLE `conglomerado_keyword` (
   `idconglomerado` int(11) NOT NULL,
   `idkeyword` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idconglomerado_idx` (`idconglomerado`),
-  KEY `idkeyword_idx` (`idkeyword`),
-  CONSTRAINT `conglome` FOREIGN KEY (`idconglomerado`) REFERENCES `conglomerado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `key` FOREIGN KEY (`idkeyword`) REFERENCES `keyword` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY (`idconglomerado`),
+  KEY (`idkeyword`),
+  FOREIGN KEY (`idconglomerado`) REFERENCES `conglomerado` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`idkeyword`) REFERENCES `keyword` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,56 +149,29 @@ CREATE TABLE `conglomerado_metrica` (
   `valor` decimal(10,0) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `conglomer_idx` (`idconglomerado`),
-  KEY `metric_idx` (`idmetrica`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY (`idconglomerado`),
+  KEY (`idmetrica`),
+  FOREIGN KEY (`idconglomerado`) REFERENCES `conglomerado` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`idmetrica`) REFERENCES `metrica` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `keyword`
+-- Table structure for table `partido_keyword`
 --
 
-DROP TABLE IF EXISTS `keyword`;
+DROP TABLE IF EXISTS `partido_keyword`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `keyword` (
-  `id` int(11) NOT NULL,
-  `value` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `metrica`
---
-
-DROP TABLE IF EXISTS `metrica`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `metrica` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `partido`
---
-
-DROP TABLE IF EXISTS `partido`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `partido` (
-  `id` int(11) NOT NULL,
-  `idconglomerado` int(11) NOT NULL,
-  `nombre` varchar(45) DEFAULT NULL,
-  `cuentaTwitter` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nombre_UNIQUE` (`nombre`),
-  KEY `idconglomerado_idx` (`idconglomerado`),
-  CONSTRAINT `idconglomerado` FOREIGN KEY (`idconglomerado`) REFERENCES `conglomerado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `partido_keyword` (
+  `idkeyword` int(11) NOT NULL,
+  `idpartido` int(11) NOT NULL,
+  PRIMARY KEY (`idpartido`,`idkeyword`),
+  KEY (`idkeyword`),
+  KEY (`idpartido`),
+  FOREIGN KEY (`idpartido`) REFERENCES `partido` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`idkeyword`) REFERENCES `keyword` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,33 +185,14 @@ CREATE TABLE `partido_metrica` (
   `id` int(11) NOT NULL,
   `idpartido` int(11) NOT NULL,
   `idmetrica` int(11) NOT NULL,
-  `tipo` varchar(45) DEFAULT NULL,
   `valor` decimal(10,0) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `partido_idx` (`idpartido`),
-  KEY `metrica_idx` (`idmetrica`),
-  CONSTRAINT `metrica` FOREIGN KEY (`idmetrica`) REFERENCES `metrica` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `partido` FOREIGN KEY (`idpartido`) REFERENCES `partido` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `politico`
---
-
-DROP TABLE IF EXISTS `politico`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `politico` (
-  `id` int(11) NOT NULL,
-  `idpartido` int(11) NOT NULL,
-  `nombre` varchar(45) DEFAULT NULL,
-  `apellido` varchar(45) DEFAULT NULL,
-  `cuentaTwitter` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `parti_idx` (`idpartido`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY (`idpartido`),
+  KEY (`idmetrica`),
+  FOREIGN KEY (`idmetrica`) REFERENCES `metrica` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`idpartido`) REFERENCES `partido` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,13 +203,14 @@ DROP TABLE IF EXISTS `politico_keyword`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `politico_keyword` (
-  `idpolitico_keyword` int(11) NOT NULL,
   `idkeyword` int(11) NOT NULL,
   `idpolitico` int(11) NOT NULL,
-  PRIMARY KEY (`idpolitico_keyword`),
-  KEY `idkeyword_idx` (`idkeyword`),
-  KEY `polit_idx` (`idpolitico`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`idpolitico`,`idkeyword`),
+  KEY (`idkeyword`),
+  KEY (`idpolitico`),
+  FOREIGN KEY (`idpolitico`) REFERENCES `politico` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`idkeyword`) REFERENCES `keyword` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,16 +221,17 @@ DROP TABLE IF EXISTS `politico_metrica`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `politico_metrica` (
-  `idpolitico_metrica` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `idpolitico` int(11) NOT NULL,
   `idmetrica` int(11) NOT NULL,
   `valor` float DEFAULT NULL,
   `fecha` date DEFAULT NULL,
-  PRIMARY KEY (`idpolitico_metrica`),
-  KEY `idpolitico_idx` (`idpolitico`),
-  KEY `metr_idx` (`idmetrica`),
-  CONSTRAINT `idpolitico` FOREIGN KEY (`idpolitico`) REFERENCES `politico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY (`idpolitico`),
+  KEY (`idmetrica`),
+  FOREIGN KEY (`idpolitico`) REFERENCES `politico` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`idmetrica`) REFERENCES `metrica` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
