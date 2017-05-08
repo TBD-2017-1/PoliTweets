@@ -1,6 +1,9 @@
 # intelliJ IDEA configuration files
 .idea/*
 
+#Eclipse config files
+.settings/*
+
 # Gradle files
 build/*
 .gradle/*
