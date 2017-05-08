@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `PoliTweets` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `PoliTweets` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `PoliTweets`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Linux (x86_64)
 --
@@ -220,4 +220,4 @@ CREATE TABLE `politico_metrica` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-07 17:20:39
+-- Dump completed on 2017-05-08 10:13:24
