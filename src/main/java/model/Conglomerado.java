@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 
 
@@ -15,14 +16,17 @@ public class Conglomerado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id", unique=true, nullable=false)
+	@Column(name="id", nullable=false, unique=true)
 	private int id;
+	
+	@OneToMany(mappedBy="conglomerado")
+	private List<Partido> listaPartidos;
 
 	@Column(name="nombre", nullable=false, unique=true, length=45)
 	private String nombre;
 
-	@Column(name="cuenta_twitter", nullable=false, unique=true, length=45)
-	private String cuenta_twitter;
+	@Column(name="cuentaTwitter", nullable=false, unique=true, length=45)
+	private String cuentaTwitter;
 
 	public Conglomerado() {
 	}
@@ -35,6 +39,14 @@ public class Conglomerado implements Serializable {
 		this.id = id;
 	}
 
+	public List<Partido> getListaPartidos() {
+		return listaPartidos;
+	}
+
+	public void setListaPartidos(List<Partido> listaPartidos) {
+		this.listaPartidos = listaPartidos;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -44,11 +56,11 @@ public class Conglomerado implements Serializable {
 	}
 
 	public String getCuenta_twitter() {
-		return cuenta_twitter;
+		return cuentaTwitter;
 	}
 
-	public void setCuenta_twitter(String cuenta_twitter) {
-		this.cuenta_twitter = cuenta_twitter;
+	public void setCuenta_twitter(String cuentaTwitter) {
+		this.cuentaTwitter = cuentaTwitter;
 	}
 	
 }
