@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import facade.AdminFacade;
 import model.Admin;
 
-@Path("/admin")
+@Path("/admins")
 public class AdminService {
 	
 	@EJB 

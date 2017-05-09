@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="partido")
-@NamedQuery(name="Partido.findAll", query="SELECT p FROM partido p")
+@NamedQuery(name="Partido.findAll", query="SELECT p FROM Partido p")
 public class Partido implements Serializable {
 	private static final long serialVersionUID = 1L;
 

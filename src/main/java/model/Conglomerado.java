@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="conglomerado")
-@NamedQuery(name="Conglomerado.findAll", query="SELECT c FROM conglomerado c")
+@NamedQuery(name="Conglomerado.findAll", query="SELECT c FROM Conglomerado c")
 public class Conglomerado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,6 +21,15 @@ public class Conglomerado implements Serializable {
 	
 	@OneToMany(mappedBy="conglomerado")
 	private List<Partido> listaPartidos;
+	
+	@JoinTable
+	(
+		name="conglomerado_keyword",
+		joinColumns={ @JoinColumn(name="idconglomerado", referencedColumnName="id") },
+		inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
+	)
+	@OneToMany
+	private List<Keyword> keywords;
 
 	@Column(name="nombre", nullable=false, unique=true, length=45)
 	private String nombre;

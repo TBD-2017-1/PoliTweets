@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import facade.ConglomeradoFacade;
 import model.Conglomerado;
 
-@Path("/conglomerado")
+@Path("/conglomerados")
 public class ConglomeradoService {
 	
 	@EJB 

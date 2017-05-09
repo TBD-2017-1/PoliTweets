@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="admin")
-@NamedQuery(name="Admin.findAll", query="SELECT a FROM admin a")
+@NamedQuery(name="Admin.findAll", query="SELECT a FROM Admin a")
 public class Admin implements Serializable {
 	private static final long serialVersionUID = 1L;
 

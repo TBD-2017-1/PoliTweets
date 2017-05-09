@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import facade.PoliticoFacade;
 import model.Politico;
 
-@Path("/politico")
+@Path("/politicos")
 public class PoliticoService {
 	
 	@EJB 

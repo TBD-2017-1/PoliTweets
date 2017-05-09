@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="politico")
-@NamedQuery(name="Politico.findAll", query="SELECT a FROM politico a")
+@NamedQuery(name="Politico.findAll", query="SELECT a FROM Politico a")
 public class Politico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
