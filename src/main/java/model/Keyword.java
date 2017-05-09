@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the admin database table.
+ * The persistent class for the keyword database table.
  * 
  */
 @Entity
