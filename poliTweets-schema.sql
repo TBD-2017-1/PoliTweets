@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `admin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS `conglomerado`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `conglomerado` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `cuentaTwitter` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `partido`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `partido` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idconglomerado` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cuentaTwitter` varchar(45) DEFAULT NULL,
@@ -77,14 +77,17 @@ DROP TABLE IF EXISTS `politico`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `politico` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idpartido` int(11) NOT NULL,
+  `idconglomerado` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
   `cuentaTwitter` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY (`idpartido`),
-  FOREIGN KEY (`idpartido`) REFERENCES `partido` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY (`idconglomerado`),
+  FOREIGN KEY (`idpartido`) REFERENCES `partido` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FOREIGN KEY (`idconglomerado`) REFERENCES `conglomerado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -96,9 +99,10 @@ DROP TABLE IF EXISTS `keyword`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `keyword` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `value` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`value`)
 ) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,7 +114,7 @@ DROP TABLE IF EXISTS `metrica`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `metrica` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
@@ -124,10 +128,9 @@ DROP TABLE IF EXISTS `conglomerado_keyword`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `conglomerado_keyword` (
-  `id` int(11) NOT NULL,
   `idconglomerado` int(11) NOT NULL,
   `idkeyword` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`idconglomerado`,`idkeyword`),
   KEY (`idconglomerado`),
   KEY (`idkeyword`),
   FOREIGN KEY (`idconglomerado`) REFERENCES `conglomerado` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -143,11 +146,12 @@ DROP TABLE IF EXISTS `conglomerado_metrica`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `conglomerado_metrica` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idconglomerado` int(11) NOT NULL,
   `idmetrica` int(11) NOT NULL,
   `valor` decimal(10,0) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
+  `lugar` VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY (`idconglomerado`),
   KEY (`idmetrica`),
@@ -182,11 +186,12 @@ DROP TABLE IF EXISTS `partido_metrica`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `partido_metrica` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idpartido` int(11) NOT NULL,
   `idmetrica` int(11) NOT NULL,
   `valor` decimal(10,0) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
+  `lugar` VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY (`idpartido`),
   KEY (`idmetrica`),
@@ -221,11 +226,12 @@ DROP TABLE IF EXISTS `politico_metrica`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `politico_metrica` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idpolitico` int(11) NOT NULL,
   `idmetrica` int(11) NOT NULL,
   `valor` float DEFAULT NULL,
   `fecha` date DEFAULT NULL,
+  `lugar` VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY (`idpolitico`),
   KEY (`idmetrica`),
