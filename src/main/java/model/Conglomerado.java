@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="conglomerado")
-@NamedQuery(name="Conglomerado.findAll", query="SELECT c FROM conglomerado c")
+@NamedQuery(name="Conglomerado.findAll", query="SELECT c FROM Conglomerado c")
 public class Conglomerado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,6 +22,18 @@ public class Conglomerado implements Serializable {
 	
 	@OneToMany(mappedBy="conglomerado")
 	private List<Partido> listaPartidos;
+	
+	@OneToMany(mappedBy="conglomerado")
+	private List<Politico> listaPoliticos;
+	
+	@JoinTable
+	(
+		name="conglomerado_keyword",
+		joinColumns={ @JoinColumn(name="idconglomerado", referencedColumnName="id") },
+		inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
+	)
+	@OneToMany
+	private List<Keyword> keywords;
 
 	@Column(name="nombre", nullable=false, unique=true, length=45)
 	private String nombre;
@@ -32,7 +45,7 @@ public class Conglomerado implements Serializable {
 	}
 
 	public int getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(int id) {
@@ -47,6 +60,22 @@ public class Conglomerado implements Serializable {
 		this.listaPartidos = listaPartidos;
 	}
 
+	public List<Politico> getListaPoliticos() {
+		return listaPoliticos;
+	}
+
+	public void setListaPoliticos(List<Politico> listaPoliticos) {
+		this.listaPoliticos = listaPoliticos;
+	}
+
+	public List<Keyword> getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(List<Keyword> keywords) {
+		this.keywords = keywords;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -55,11 +84,11 @@ public class Conglomerado implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getCuenta_twitter() {
+	public String getCuentaTwitter() {
 		return cuentaTwitter;
 	}
 
-	public void setCuenta_twitter(String cuentaTwitter) {
+	public void setCuentaTwitter(String cuentaTwitter) {
 		this.cuentaTwitter = cuentaTwitter;
 	}
 	

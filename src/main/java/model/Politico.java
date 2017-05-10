@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="politico")
-@NamedQuery(name="Politico.findAll", query="SELECT a FROM politico a")
+@NamedQuery(name="Politico.findAll", query="SELECT a FROM Politico a")
 public class Politico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -19,9 +21,22 @@ public class Politico implements Serializable {
 	private int id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idconglomerado")
+	private Conglomerado conglomerado;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idpartido")
 	private Partido partido;
 
+	@JoinTable
+	(
+		name="politico_keyword",
+		joinColumns={ @JoinColumn(name="idpolitico", referencedColumnName="id") },
+		inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
+	)
+	@OneToMany
+	private List<Keyword> keywords;
+	
 	@Column(name="nombre", nullable=false, length=45)
 	private String nombre;
 	
@@ -42,12 +57,28 @@ public class Politico implements Serializable {
 		this.id = id;
 	}
 
+	public Conglomerado getConglomerado() {
+		return conglomerado;
+	}
+
+	public void setConglomerado(Conglomerado conglomerado) {
+		this.conglomerado = conglomerado;
+	}
+
 	public Partido getPartido() {
 		return partido;
 	}
 
 	public void setPartido(Partido partido) {
 		this.partido = partido;
+	}
+
+	public List<Keyword> getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(List<Keyword> keywords) {
+		this.keywords = keywords;
 	}
 
 	public String getNombre() {

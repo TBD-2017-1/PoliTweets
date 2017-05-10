@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="partido")
-@NamedQuery(name="Partido.findAll", query="SELECT p FROM partido p")
+@NamedQuery(name="Partido.findAll", query="SELECT p FROM Partido p")
 public class Partido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,6 +26,15 @@ public class Partido implements Serializable {
 	@OneToMany(mappedBy="partido")
 	private List<Politico> listaPoliticos;
 	
+	@JoinTable
+	(
+		name="partido_keyword",
+		joinColumns={ @JoinColumn(name="idpartido", referencedColumnName="id") },
+		inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
+	)
+	@OneToMany
+	private List<Keyword> keywords;
+	
 	@Column(name="nombre", nullable=false, unique=true, length=45)
 	private String nombre;
 
@@ -36,7 +45,7 @@ public class Partido implements Serializable {
 	}
 
 	public int getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(int id) {
@@ -59,6 +68,14 @@ public class Partido implements Serializable {
 		this.listaPoliticos = listaPoliticos;
 	}
 
+	public List<Keyword> getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(List<Keyword> keywords) {
+		this.keywords = keywords;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -67,12 +84,13 @@ public class Partido implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getCuenta_twitter() {
+	public String getCuentaTwitter() {
 		return cuentaTwitter;
 	}
 
-	public void setCuenta_twitter(String cuentaTwitter) {
+	public void setCuentaTwitter(String cuentaTwitter) {
 		this.cuentaTwitter = cuentaTwitter;
 	}
+
 	
 }

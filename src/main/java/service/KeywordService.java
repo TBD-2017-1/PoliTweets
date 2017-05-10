@@ -12,42 +12,42 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import facade.PartidoFacade;
-import model.Partido;
+import facade.KeywordFacade;
+import model.Keyword;
 
-@Path("/partidos")
-public class PartidoService {
+@Path("/keywords")
+public class KeywordService {
 	
 	@EJB 
-	PartidoFacade partidoFacadeEJB;
+	KeywordFacade keywordFacadeEJB;
 	
-	Logger logger = Logger.getLogger(PartidoService.class.getName());
+	Logger logger = Logger.getLogger(KeywordService.class.getName());
 	
 	@GET
 	@Produces({"application/xml", "application/json"})
-	public List<Partido> findAll(){
-		return partidoFacadeEJB.findAll();
+	public List<Keyword> findAll(){
+		return keywordFacadeEJB.findAll();
 	}
 	
 	@GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
-    public Partido find(@PathParam("id") Integer id) {
-        return partidoFacadeEJB.find(id);
+    public Keyword find(@PathParam("id") Integer id) {
+        return keywordFacadeEJB.find(id);
     }
 	
 	@POST
     @Consumes({"application/xml", "application/json"})
-    public void create(Partido entity) {
-        partidoFacadeEJB.create(entity);
+    public void create(Keyword entity) {
+        keywordFacadeEJB.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Integer id, Partido entity) {
+    public void edit(@PathParam("id") Integer id, Keyword entity) {
     	entity.setId(id.intValue());
-        partidoFacadeEJB.edit(entity);
+        keywordFacadeEJB.edit(entity);
     }
 	
 
