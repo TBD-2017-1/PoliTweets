@@ -3,6 +3,8 @@
 
 #Eclipse config files
 .settings/*
+.classpath
+.project
 
 # Gradle files
 build/*
