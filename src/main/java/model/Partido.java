@@ -14,14 +14,22 @@ import javax.persistence.*;
 @NamedQuery(name="Partido.findAll", query="SELECT p FROM Partido p")
 public class Partido implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	//Atributes
 	@Id
-	@Column(name="id", unique=true, nullable=false)
+	@Column(name="id", nullable=false, unique=true)
 	private int id;
+	
+	@Column(name="nombre", nullable=false, unique=true, length=128)
+	private String nombre;
 
+	@Column(name="cuentaTwitter", length=45)
+	private String cuentaTwitter;
+	
+	//Relations
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idconglomerado")
-	private Conglomerado conglomerado;
+	private Conglomerado conglomerado_partido;
 	
 	@OneToMany(mappedBy="partido")
 	private List<Politico> listaPoliticos;
@@ -34,13 +42,8 @@ public class Partido implements Serializable {
 	)
 	@OneToMany
 	private List<Keyword> keywords;
-	
-	@Column(name="nombre", nullable=false, unique=true, length=45)
-	private String nombre;
 
-	@Column(name="cuentaTwitter", nullable=false, unique=true, length=45)
-	private String cuentaTwitter;
-
+	//Methods
 	public Partido() {
 	}
 
@@ -50,30 +53,6 @@ public class Partido implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Conglomerado getConglomerado() {
-		return conglomerado;
-	}
-
-	public void setConglomerado(Conglomerado conglomerado) {
-		this.conglomerado = conglomerado;
-	}
-
-	public List<Politico> getListaPoliticos() {
-		return listaPoliticos;
-	}
-
-	public void setListaPoliticos(List<Politico> listaPoliticos) {
-		this.listaPoliticos = listaPoliticos;
-	}
-
-	public List<Keyword> getKeywords() {
-		return keywords;
-	}
-
-	public void setKeywords(List<Keyword> keywords) {
-		this.keywords = keywords;
 	}
 
 	public String getNombre() {
@@ -92,5 +71,27 @@ public class Partido implements Serializable {
 		this.cuentaTwitter = cuentaTwitter;
 	}
 
+	public Conglomerado getConglomerado() {
+		return conglomerado_partido;
+	}
 	
+	public void setConglomerado(Conglomerado conglomerado){
+		this.conglomerado_partido = conglomerado;
+	}
+
+	public List<Politico> getListaPoliticos() {
+		return listaPoliticos;
+	}
+
+	public void addPolitico(Politico politico) {
+		this.listaPoliticos.add(politico);
+	}
+
+	public List<Keyword> getKeywords() {
+		return keywords;
+	}
+
+	public void addKeyword(Keyword keyword) {
+		this.keywords.add(keyword);
+	}
 }

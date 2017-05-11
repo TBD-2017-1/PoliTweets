@@ -8,12 +8,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import facade.PartidoFacade;
+import model.Conglomerado;
+import model.Keyword;
 import model.Partido;
+import model.Politico;
 
 @Path("/partidos")
 public class PartidoService {
@@ -36,10 +40,38 @@ public class PartidoService {
         return partidoFacadeEJB.find(id);
     }
 	
+	@GET
+    @Path("{id}/politicos")
+    @Produces({"application/xml", "application/json"})
+    public List<Politico> getPoliticos(@PathParam("id") Integer id) {
+        return partidoFacadeEJB.find(id).getListaPoliticos();
+    }
+	
+	@GET
+    @Path("{id}/keywords")
+    @Produces({"application/xml", "application/json"})
+    public List<Keyword> getKeywords(@PathParam("id") Integer id) {
+        return partidoFacadeEJB.find(id).getKeywords();
+    }
+	
 	@POST
     @Consumes({"application/xml", "application/json"})
     public void create(Partido entity) {
         partidoFacadeEJB.create(entity);
+    }
+	
+	@POST
+	@Path("{id}/addpolitico")
+    @Consumes({"application/xml", "application/json"})
+    public void addPolitico(@PathParam("id") Integer id, Politico politico) {
+        partidoFacadeEJB.find(id).addPolitico(politico);
+    }
+	
+	@POST
+	@Path("{id}/addkeyword")
+    @Consumes({"application/xml", "application/json"})
+    public void addKeyword(@PathParam("id") Integer id, Keyword keyword) {
+		partidoFacadeEJB.find(id).addKeyword(keyword);
     }
 
     @PUT
@@ -49,6 +81,18 @@ public class PartidoService {
     	entity.setId(id.intValue());
         partidoFacadeEJB.edit(entity);
     }
+    
+    @PUT
+    @Path("{id}/setconglomerado")
+    @Consumes({"application/xml", "application/json"})
+    public void editConglomerado(@PathParam("id") Integer id, Conglomerado conglomerado) {
+        partidoFacadeEJB.find(id).setConglomerado(conglomerado);
+    }
 	
-
+    @DELETE
+    @Path("{id}")
+    public void remove(@PathParam("id") Integer id) {
+        partidoFacadeEJB.remove(partidoFacadeEJB.find(id));
+    }
+    
 }

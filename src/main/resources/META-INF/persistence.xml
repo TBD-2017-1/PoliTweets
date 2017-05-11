@@ -8,5 +8,7 @@
 		<class>model.Conglomerado</class>
 		<class>model.Partido</class>
 		<class>model.Politico</class>
+		<class>model.Keyword</class>
 	</persistence-unit>
 </persistence>
+

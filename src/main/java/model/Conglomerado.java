@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -16,14 +15,22 @@ import javax.persistence.*;
 public class Conglomerado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	//Atributes
 	@Id
 	@Column(name="id", nullable=false, unique=true)
 	private int id;
 	
-	@OneToMany(mappedBy="conglomerado")
+	@Column(name="nombre", nullable=false, unique=true, length=45)
+	private String nombre;
+
+	@Column(name="cuentaTwitter", unique=true, length=45)
+	private String cuentaTwitter;
+	
+	//Relations
+	@OneToMany(mappedBy="conglomerado_partido")
 	private List<Partido> listaPartidos;
 	
-	@OneToMany(mappedBy="conglomerado")
+	@OneToMany(mappedBy="conglomerado_politico")
 	private List<Politico> listaPoliticos;
 	
 	@JoinTable
@@ -35,12 +42,7 @@ public class Conglomerado implements Serializable {
 	@OneToMany
 	private List<Keyword> keywords;
 
-	@Column(name="nombre", nullable=false, unique=true, length=45)
-	private String nombre;
-
-	@Column(name="cuentaTwitter", nullable=false, unique=true, length=45)
-	private String cuentaTwitter;
-
+	//Methods
 	public Conglomerado() {
 	}
 
@@ -51,31 +53,7 @@ public class Conglomerado implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public List<Partido> getListaPartidos() {
-		return listaPartidos;
-	}
-
-	public void setListaPartidos(List<Partido> listaPartidos) {
-		this.listaPartidos = listaPartidos;
-	}
-
-	public List<Politico> getListaPoliticos() {
-		return listaPoliticos;
-	}
-
-	public void setListaPoliticos(List<Politico> listaPoliticos) {
-		this.listaPoliticos = listaPoliticos;
-	}
-
-	public List<Keyword> getKeywords() {
-		return keywords;
-	}
-
-	public void setKeywords(List<Keyword> keywords) {
-		this.keywords = keywords;
-	}
-
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -90,6 +68,30 @@ public class Conglomerado implements Serializable {
 
 	public void setCuentaTwitter(String cuentaTwitter) {
 		this.cuentaTwitter = cuentaTwitter;
+	}
+
+	public List<Partido> getListaPartidos() {
+		return listaPartidos;
+	}
+	
+	public void addPartido(Partido partido){
+		this.listaPartidos.add(partido);
+	}
+
+	public List<Politico> getListaPoliticos() {
+		return listaPoliticos;
+	}
+	
+	public void addPolitico(Politico politico){
+		this.listaPoliticos.add(politico);
+	}
+
+	public List<Keyword> getKeywords() {
+		return keywords;
+	}
+	
+	public void addKeyword(Keyword keyword){
+		this.keywords.add(keyword);
 	}
 	
 }

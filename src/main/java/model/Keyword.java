@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -17,9 +19,37 @@ public class Keyword implements Serializable {
 	@Id
 	@Column(name="id", nullable=false, unique=true)
 	private int id;
-
+	
 	@Column(name="value", nullable=false, unique=true, length=45)
 	private String value;
+
+	@JoinTable
+	(
+		name="conglomerado_keyword",
+		joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
+		inverseJoinColumns={ @JoinColumn(name="idconglomerado", referencedColumnName="id") }
+	)
+	@OneToMany
+	private List<Conglomerado> conglomerados_keywords;
+	
+	@JoinTable
+	(
+		name="partido_keyword",
+		joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
+		inverseJoinColumns={ @JoinColumn(name="idpartido", referencedColumnName="id") }
+	)
+	@OneToMany
+	private List<Partido> partidos_keywords;
+	
+	@JoinTable
+	(
+		name="politico_keyword",
+		joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
+		inverseJoinColumns={ @JoinColumn(name="idpolitico", referencedColumnName="id") }
+	)
+	@OneToMany
+	private List<Politico> politicos_keywords;
+	
 
 	public Keyword() {
 	}
@@ -40,4 +70,27 @@ public class Keyword implements Serializable {
 		this.value = value;
 	}
 	
+	public List<Conglomerado> getConglomerados(){
+		return this.conglomerados_keywords;
+	}
+	
+	public void addConglomerado(Conglomerado conglomerado){
+		this.conglomerados_keywords.add(conglomerado);
+	}
+	
+	public List<Partido> getPartidos(){
+		return this.partidos_keywords;
+	}
+	
+	public void addPartido(Partido partido){
+		this.partidos_keywords.add(partido);
+	}
+	
+	public List<Politico> getPoliticos(){
+		return this.politicos_keywords;
+	}
+	
+	public void addPolitico(Politico politicos){
+		this.politicos_keywords.add(politicos);
+	}
 }

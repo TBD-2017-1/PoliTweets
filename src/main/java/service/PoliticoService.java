@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -13,6 +14,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import facade.PoliticoFacade;
+import model.Conglomerado;
+import model.Keyword;
+import model.Partido;
 import model.Politico;
 
 @Path("/politicos")
@@ -36,10 +40,24 @@ public class PoliticoService {
         return politicoFacadeEJB.find(id);
     }
 	
+	@GET
+    @Path("{id}/keywords")
+    @Produces({"application/xml", "application/json"})
+    public List<Keyword> getKeywords(@PathParam("id") Integer id) {
+        return politicoFacadeEJB.find(id).getKeywords();
+    }
+	
 	@POST
     @Consumes({"application/xml", "application/json"})
     public void create(Politico entity) {
         politicoFacadeEJB.create(entity);
+    }
+	
+	@POST
+	@Path("{id}/addkeyword")
+    @Consumes({"application/xml", "application/json"})
+    public void addKeyword(@PathParam("id") Integer id, Keyword keyword) {
+        politicoFacadeEJB.find(id).addKeyword(keyword);
     }
 
     @PUT
@@ -49,6 +67,25 @@ public class PoliticoService {
     	entity.setId(id.intValue());
         politicoFacadeEJB.edit(entity);
     }
+    
+    @PUT
+    @Path("{id}/setconglomerado")
+    @Consumes({"application/xml", "application/json"})
+    public void editConglomerado(@PathParam("id") Integer id, Conglomerado conglomerado) {
+        politicoFacadeEJB.find(id).setConglomerado(conglomerado);
+    }
+    
+    @PUT
+    @Path("{id}/setpartido")
+    @Consumes({"application/xml", "application/json"})
+    public void editPartido(@PathParam("id") Integer id, Partido partido) {
+        politicoFacadeEJB.find(id).setPartido(partido);
+    }
+    
+    @DELETE
+    @Path("{id}")
+    public void remove(@PathParam("id") Integer id) {
+        politicoFacadeEJB.remove(politicoFacadeEJB.find(id));
+    }
 	
-
 }

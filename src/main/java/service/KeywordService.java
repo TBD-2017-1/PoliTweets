@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 
 import facade.KeywordFacade;
 import model.Keyword;
+import model.Partido;
 
 @Path("/keywords")
 public class KeywordService {
@@ -36,10 +37,11 @@ public class KeywordService {
         return keywordFacadeEJB.find(id);
     }
 	
-	@POST
-    @Consumes({"application/xml", "application/json"})
-    public void create(Keyword entity) {
-        keywordFacadeEJB.create(entity);
+	@GET
+    @Path("{id}/partidos")
+    @Produces({"application/xml", "application/json"})
+    public List<Partido> getPartidos(@PathParam("id") Integer id) {
+        return keywordFacadeEJB.find(id).getPartidos();
     }
 
     @PUT
