@@ -191,7 +191,7 @@ CREATE TABLE `partido` (
   UNIQUE KEY `nombre` (`nombre`),
   KEY `idconglomerado` (`idconglomerado`),
   CONSTRAINT `partido_ibfk_1` FOREIGN KEY (`idconglomerado`) REFERENCES `conglomerado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -319,6 +319,7 @@ CREATE TABLE `politico_keyword` (
 
 LOCK TABLES `politico_keyword` WRITE;
 /*!40000 ALTER TABLE `politico_keyword` DISABLE KEYS */;
+INSERT INTO `politico_keyword` VALUES (28,3),(29,16),(30,18),(31,21),(32,26),(33,27),(34,28),(35,31),(36,32),(37,33),(38,35),(39,36),(40,38);
 /*!40000 ALTER TABLE `politico_keyword` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,4 +363,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-10  6:24:07
+-- Dump completed on 2017-05-10 21:44:17
