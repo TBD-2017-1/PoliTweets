@@ -22,39 +22,39 @@ import model.Politico;
 @Path("/politicos")
 public class PoliticoService {
 	
-	@EJB 
-	PoliticoFacade politicoFacadeEJB;
+    @EJB 
+    PoliticoFacade politicoFacadeEJB;
 	
-	Logger logger = Logger.getLogger(PoliticoService.class.getName());
+    Logger logger = Logger.getLogger(PoliticoService.class.getName());
 	
-	@GET
-	@Produces({"application/xml", "application/json"})
-	public List<Politico> findAll(){
-		return politicoFacadeEJB.findAll();
-	}
+    @GET
+    @Produces({"application/xml", "application/json"})
+    public List<Politico> findAll(){
+    	return politicoFacadeEJB.findAll();
+    }
 	
-	@GET
+    @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
     public Politico find(@PathParam("id") Integer id) {
         return politicoFacadeEJB.find(id);
     }
 	
-	@GET
+    @GET
     @Path("{id}/keywords")
     @Produces({"application/xml", "application/json"})
     public List<Keyword> getKeywords(@PathParam("id") Integer id) {
         return politicoFacadeEJB.find(id).getKeywords();
     }
 	
-	@POST
+    @POST
     @Consumes({"application/xml", "application/json"})
     public void create(Politico entity) {
         politicoFacadeEJB.create(entity);
     }
 	
-	@POST
-	@Path("{id}/addkeyword")
+    @POST
+    @Path("{id}/addkeyword")
     @Consumes({"application/xml", "application/json"})
     public void addKeyword(@PathParam("id") Integer id, Keyword keyword) {
         politicoFacadeEJB.find(id).addKeyword(keyword);

@@ -11,17 +11,16 @@ import model.Conglomerado;
 @Stateless
 public class ConglomeradoFacadeEJB extends AbstractFacade<Conglomerado> implements ConglomeradoFacade {
 	
-	
-	@PersistenceContext(unitName = "politweetsPU")
-	private EntityManager em;
-	
-	public ConglomeradoFacadeEJB() {
-		super(Conglomerado.class);
-	}
+    @PersistenceContext(unitName = "politweetsPU")
+    private EntityManager em;
 
-	@Override
-	protected EntityManager getEntityManager() {
-		return this.em;
-	}
+    public ConglomeradoFacadeEJB() {
+        super(Conglomerado.class);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return this.em;
+    }
 
 }

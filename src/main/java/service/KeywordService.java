@@ -19,25 +19,25 @@ import model.Partido;
 @Path("/keywords")
 public class KeywordService {
 	
-	@EJB 
-	KeywordFacade keywordFacadeEJB;
+    @EJB 
+    KeywordFacade keywordFacadeEJB;
 	
-	Logger logger = Logger.getLogger(KeywordService.class.getName());
+    Logger logger = Logger.getLogger(KeywordService.class.getName());
 	
-	@GET
-	@Produces({"application/xml", "application/json"})
-	public List<Keyword> findAll(){
-		return keywordFacadeEJB.findAll();
-	}
+    @GET
+    @Produces({"application/xml", "application/json"})
+    public List<Keyword> findAll(){
+            return keywordFacadeEJB.findAll();
+    }
 	
-	@GET
+    @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
     public Keyword find(@PathParam("id") Integer id) {
         return keywordFacadeEJB.find(id);
     }
 	
-	@GET
+    @GET
     @Path("{id}/partidos")
     @Produces({"application/xml", "application/json"})
     public List<Partido> getPartidos(@PathParam("id") Integer id) {
@@ -52,5 +52,4 @@ public class KeywordService {
         keywordFacadeEJB.edit(entity);
     }
 	
-
 }

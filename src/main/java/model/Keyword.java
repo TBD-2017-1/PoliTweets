@@ -14,83 +14,83 @@ import javax.persistence.*;
 @Table(name="keyword")
 @NamedQuery(name="Keyword.findAll", query="SELECT k FROM Keyword k")
 public class Keyword implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="id", nullable=false, unique=true)
-	private int id;
-	
-	@Column(name="value", nullable=false, unique=true, length=45)
-	private String value;
+    @Id
+    @Column(name="id", nullable=false, unique=true)
+    private int id;
 
-	@JoinTable
-	(
-		name="conglomerado_keyword",
-		joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
-		inverseJoinColumns={ @JoinColumn(name="idconglomerado", referencedColumnName="id") }
-	)
-	@OneToMany
-	private List<Conglomerado> conglomerados_keywords;
-	
-	@JoinTable
-	(
-		name="partido_keyword",
-		joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
-		inverseJoinColumns={ @JoinColumn(name="idpartido", referencedColumnName="id") }
-	)
-	@OneToMany
-	private List<Partido> partidos_keywords;
-	
-	@JoinTable
-	(
-		name="politico_keyword",
-		joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
-		inverseJoinColumns={ @JoinColumn(name="idpolitico", referencedColumnName="id") }
-	)
-	@OneToMany
-	private List<Politico> politicos_keywords;
-	
+    @Column(name="value", nullable=false, unique=true, length=45)
+    private String value;
 
-	public Keyword() {
-	}
+    @JoinTable
+    (
+        name="conglomerado_keyword",
+        joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
+        inverseJoinColumns={ @JoinColumn(name="idconglomerado", referencedColumnName="id") }
+    )
+    @OneToMany
+    private List<Conglomerado> conglomerados_keywords;
 
-	public int getId() {
-		return id;
-	}
+    @JoinTable
+    (
+        name="partido_keyword",
+        joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
+        inverseJoinColumns={ @JoinColumn(name="idpartido", referencedColumnName="id") }
+    )
+    @OneToMany
+    private List<Partido> partidos_keywords;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @JoinTable
+    (
+        name="politico_keyword",
+        joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
+        inverseJoinColumns={ @JoinColumn(name="idpolitico", referencedColumnName="id") }
+    )
+    @OneToMany
+    private List<Politico> politicos_keywords;
 
-	public String getValue() {
-		return value;
-	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	public List<Conglomerado> getConglomerados(){
-		return this.conglomerados_keywords;
-	}
-	
-	public void addConglomerado(Conglomerado conglomerado){
-		this.conglomerados_keywords.add(conglomerado);
-	}
-	
-	public List<Partido> getPartidos(){
-		return this.partidos_keywords;
-	}
-	
-	public void addPartido(Partido partido){
-		this.partidos_keywords.add(partido);
-	}
-	
-	public List<Politico> getPoliticos(){
-		return this.politicos_keywords;
-	}
-	
-	public void addPolitico(Politico politicos){
-		this.politicos_keywords.add(politicos);
-	}
+    public Keyword() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public List<Conglomerado> getConglomerados(){
+        return this.conglomerados_keywords;
+    }
+
+    public void addConglomerado(Conglomerado conglomerado){
+        this.conglomerados_keywords.add(conglomerado);
+    }
+
+    public List<Partido> getPartidos(){
+        return this.partidos_keywords;
+    }
+
+    public void addPartido(Partido partido){
+        this.partidos_keywords.add(partido);
+    }
+
+    public List<Politico> getPoliticos(){
+        return this.politicos_keywords;
+    }
+
+    public void addPolitico(Politico politicos){
+        this.politicos_keywords.add(politicos);
+    }
 }

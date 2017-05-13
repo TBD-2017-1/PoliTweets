@@ -21,41 +21,43 @@ import model.Admin;
 @Path("/admins")
 public class AdminService {
 	
-	@EJB 
-	AdminFacade adminFacadeEJB;
+    @EJB 
+    AdminFacade adminFacadeEJB;
 	
-	Logger logger = Logger.getLogger(AdminService.class.getName());
+    Logger logger = Logger.getLogger(AdminService.class.getName());
 	
-	@GET
-	@Produces({"application/xml", "application/json"})
-	public List<Admin> findAll(){
-		return adminFacadeEJB.findAll();
-	}
+    @GET
+    @Produces({"application/xml", "application/json"})
+    public List<Admin> findAll(){
+    	return adminFacadeEJB.findAll();
+    }
 	
-	@GET
+    @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
     public Admin find(@PathParam("id") Integer id) {
         return adminFacadeEJB.find(id);
     }
 	
-	@GET
-	@Path("verify/{username}/{password}")
-	@Produces({"application/xml", "application/json"})
-	public Admin verify(@PathParam("username") String username, @PathParam("password") String password){
-		List<Admin> admins = adminFacadeEJB.findAll();
-		for (Admin admin : admins) {
-			if(admin.getUsername().equals(username) && admin.getPassword().equals(password)){
-				return admin;
-			}
+    @GET
+    @Path("verify/{username}/{password}")
+    @Produces({"application/xml", "application/json"})
+    public Admin verify(@PathParam("username") String username, @PathParam("password") String password){
+    	List<Admin> admins = adminFacadeEJB.findAll();
+            for (Admin admin : admins) {
+                if(admin.getUsername().equals(username) && admin.getPassword().equals(password)){
+                    return admin;
 		}
-		return new Admin();
-	}
+            }
+        return new Admin();
+    }
 	
-	@POST
+    @POST
     @Consumes({"application/xml", "application/json"})
-    public void create(Admin entity) {
+    @Produces({"application/xml", "application/json"})
+    public Admin create(Admin entity) {
         adminFacadeEJB.create(entity);
+        return new_admin;
     }
 
     @PUT

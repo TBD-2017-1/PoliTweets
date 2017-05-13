@@ -14,97 +14,97 @@ import javax.persistence.*;
 @Table(name="politico")
 @NamedQuery(name="Politico.findAll", query="SELECT a FROM Politico a")
 public class Politico implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	//Atributes
-	@Id
-	@Column(name="id", nullable=false, unique=true)
-	private int id;
-	
-	@Column(name="nombre", nullable=false, length=45)
-	private String nombre;
-	
-	@Column(name="apellido", nullable=false, length=45)
-	private String apellido;
+    //Atributes
+    @Id
+    @Column(name="id", nullable=false, unique=true)
+    private int id;
 
-	@Column(name="cuentaTwitter", length=45)
-	private String cuentaTwitter;
-	
-	//Relations
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idconglomerado")
-	private Conglomerado conglomerado_politico;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idpartido")
-	private Partido partido;
+    @Column(name="nombre", nullable=false, length=45)
+    private String nombre;
 
-	@JoinTable
-	(
-		name="politico_keyword",
-		joinColumns={ @JoinColumn(name="idpolitico", referencedColumnName="id") },
-		inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
-	)
-	@OneToMany
-	private List<Keyword> keywords;
+    @Column(name="apellido", nullable=false, length=45)
+    private String apellido;
 
-	//Methods
-	public Politico() {
-	}
+    @Column(name="cuentaTwitter", length=45)
+    private String cuentaTwitter;
 
-	public int getId() {
-		return id;
-	}
+    //Relations
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idconglomerado")
+    private Conglomerado conglomerado_politico;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idpartido")
+    private Partido partido;
 
-	public String getNombre() {
-		return nombre;
-	}
+    @JoinTable
+    (
+        name="politico_keyword",
+        joinColumns={ @JoinColumn(name="idpolitico", referencedColumnName="id") },
+        inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
+    )
+    @OneToMany
+    private List<Keyword> keywords;
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    //Methods
+    public Politico() {
+    }
 
-	public String getApellido() {
-		return apellido;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getCuentaTwitter() {
-		return cuentaTwitter;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public void setCuentaTwitter(String cuentaTwitter) {
-		this.cuentaTwitter = cuentaTwitter;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public Conglomerado getConglomerado() {
-		return conglomerado_politico;
-	}
+    public String getApellido() {
+        return apellido;
+    }
 
-	public void setConglomerado(Conglomerado conglomerado_politico) {
-		this.conglomerado_politico = conglomerado_politico;
-	}
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
 
-	public Partido getPartido() {
-		return partido;
-	}
+    public String getCuentaTwitter() {
+        return cuentaTwitter;
+    }
 
-	public void setPartido(Partido partido) {
-		this.partido = partido;
-	}
+    public void setCuentaTwitter(String cuentaTwitter) {
+        this.cuentaTwitter = cuentaTwitter;
+    }
 
-	public List<Keyword> getKeywords() {
-		return keywords;
-	}
+    public Conglomerado getConglomerado() {
+        return conglomerado_politico;
+    }
 
-	public void addKeyword(Keyword keyword) {
-		this.keywords.add(keyword);
-	}
+    public void setConglomerado(Conglomerado conglomerado_politico) {
+        this.conglomerado_politico = conglomerado_politico;
+    }
+
+    public Partido getPartido() {
+        return partido;
+    }
+
+    public void setPartido(Partido partido) {
+        this.partido = partido;
+    }
+
+    public List<Keyword> getKeywords() {
+        return keywords;
+    }
+
+    public void addKeyword(Keyword keyword) {
+        this.keywords.add(keyword);
+    }
 }

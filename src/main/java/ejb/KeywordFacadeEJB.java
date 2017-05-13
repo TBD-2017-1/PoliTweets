@@ -9,19 +9,18 @@ import facade.KeywordFacade;
 import model.Keyword;
 
 @Stateless
-public class KeywordFacadeEJB extends AbstractFacade<Keyword> implements KeywordFacade {
+public class KeywordFacadeEJB extends AbstractFacade<Keyword> implements KeywordFacade {	
 	
-	
-	@PersistenceContext(unitName = "politweetsPU")
-	private EntityManager em;
-	
-	public KeywordFacadeEJB() {
-		super(Keyword.class);
-	}
+    @PersistenceContext(unitName = "politweetsPU")
+    private EntityManager em;
 
-	@Override
-	protected EntityManager getEntityManager() {
-		return this.em;
-	}
+    public KeywordFacadeEJB() {
+        super(Keyword.class);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return this.em;
+    }
 
 }

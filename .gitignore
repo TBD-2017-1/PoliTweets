@@ -6,6 +6,9 @@
 .classpath
 .project
 
+#NetBeans config files
+.nb-gradle/*
+
 # Gradle files
 build/*
 .gradle/*

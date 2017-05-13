@@ -13,85 +13,85 @@ import javax.persistence.*;
 @Table(name="partido")
 @NamedQuery(name="Partido.findAll", query="SELECT p FROM Partido p")
 public class Partido implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	//Atributes
-	@Id
-	@Column(name="id", nullable=false, unique=true)
-	private int id;
-	
-	@Column(name="nombre", nullable=false, unique=true, length=128)
-	private String nombre;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name="cuentaTwitter", length=45)
-	private String cuentaTwitter;
-	
-	//Relations
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idconglomerado")
-	private Conglomerado conglomerado_partido;
-	
-	@OneToMany(mappedBy="partido")
-	private List<Politico> listaPoliticos;
-	
-	@JoinTable
-	(
-		name="partido_keyword",
-		joinColumns={ @JoinColumn(name="idpartido", referencedColumnName="id") },
-		inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
-	)
-	@OneToMany
-	private List<Keyword> keywords;
+    //Atributes
+    @Id
+    @Column(name="id", nullable=false, unique=true)
+    private int id;
 
-	//Methods
-	public Partido() {
-	}
+    @Column(name="nombre", nullable=false, unique=true, length=128)
+    private String nombre;
 
-	public int getId() {
-		return id;
-	}
+    @Column(name="cuentaTwitter", length=45)
+    private String cuentaTwitter;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    //Relations
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idconglomerado")
+    private Conglomerado conglomerado_partido;
 
-	public String getNombre() {
-		return nombre;
-	}
+    @OneToMany(mappedBy="partido")
+    private List<Politico> listaPoliticos;
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    @JoinTable
+    (
+        name="partido_keyword",
+        joinColumns={ @JoinColumn(name="idpartido", referencedColumnName="id") },
+        inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
+    )
+    @OneToMany
+    private List<Keyword> keywords;
 
-	public String getCuentaTwitter() {
-		return cuentaTwitter;
-	}
+    //Methods
+    public Partido() {
+    }
 
-	public void setCuentaTwitter(String cuentaTwitter) {
-		this.cuentaTwitter = cuentaTwitter;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Conglomerado getConglomerado() {
-		return conglomerado_partido;
-	}
-	
-	public void setConglomerado(Conglomerado conglomerado){
-		this.conglomerado_partido = conglomerado;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public List<Politico> getListaPoliticos() {
-		return listaPoliticos;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public void addPolitico(Politico politico) {
-		this.listaPoliticos.add(politico);
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public List<Keyword> getKeywords() {
-		return keywords;
-	}
+    public String getCuentaTwitter() {
+        return cuentaTwitter;
+    }
 
-	public void addKeyword(Keyword keyword) {
-		this.keywords.add(keyword);
-	}
+    public void setCuentaTwitter(String cuentaTwitter) {
+        this.cuentaTwitter = cuentaTwitter;
+    }
+
+    public Conglomerado getConglomerado() {
+        return conglomerado_partido;
+    }
+
+    public void setConglomerado(Conglomerado conglomerado){
+        this.conglomerado_partido = conglomerado;
+    }
+
+    public List<Politico> getListaPoliticos() {
+        return listaPoliticos;
+    }
+
+    public void addPolitico(Politico politico) {
+        this.listaPoliticos.add(politico);
+    }
+
+    public List<Keyword> getKeywords() {
+        return keywords;
+    }
+
+    public void addKeyword(Keyword keyword) {
+        this.keywords.add(keyword);
+    }
 }

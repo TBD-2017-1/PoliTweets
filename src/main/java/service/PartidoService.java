@@ -22,53 +22,53 @@ import model.Politico;
 @Path("/partidos")
 public class PartidoService {
 	
-	@EJB 
-	PartidoFacade partidoFacadeEJB;
+    @EJB 
+    PartidoFacade partidoFacadeEJB;
 	
-	Logger logger = Logger.getLogger(PartidoService.class.getName());
+    Logger logger = Logger.getLogger(PartidoService.class.getName());
 	
-	@GET
-	@Produces({"application/xml", "application/json"})
-	public List<Partido> findAll(){
-		return partidoFacadeEJB.findAll();
-	}
+    @GET
+    @Produces({"application/xml", "application/json"})
+    public List<Partido> findAll(){
+    	return partidoFacadeEJB.findAll();
+    }
 	
-	@GET
+    @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
     public Partido find(@PathParam("id") Integer id) {
         return partidoFacadeEJB.find(id);
     }
 	
-	@GET
+    @GET
     @Path("{id}/politicos")
     @Produces({"application/xml", "application/json"})
     public List<Politico> getPoliticos(@PathParam("id") Integer id) {
         return partidoFacadeEJB.find(id).getListaPoliticos();
     }
 	
-	@GET
+    @GET
     @Path("{id}/keywords")
     @Produces({"application/xml", "application/json"})
     public List<Keyword> getKeywords(@PathParam("id") Integer id) {
         return partidoFacadeEJB.find(id).getKeywords();
     }
 	
-	@POST
+    @POST
     @Consumes({"application/xml", "application/json"})
     public void create(Partido entity) {
         partidoFacadeEJB.create(entity);
     }
 	
-	@POST
-	@Path("{id}/addpolitico")
+    @POST
+    @Path("{id}/addpolitico")
     @Consumes({"application/xml", "application/json"})
     public void addPolitico(@PathParam("id") Integer id, Politico politico) {
         partidoFacadeEJB.find(id).addPolitico(politico);
     }
 	
-	@POST
-	@Path("{id}/addkeyword")
+    @POST
+    @Path("{id}/addkeyword")
     @Consumes({"application/xml", "application/json"})
     public void addKeyword(@PathParam("id") Integer id, Keyword keyword) {
 		partidoFacadeEJB.find(id).addKeyword(keyword);

@@ -10,18 +10,17 @@ import model.Partido;
 
 @Stateless
 public class PartidoFacadeEJB extends AbstractFacade<Partido> implements PartidoFacade {
-	
-	
-	@PersistenceContext(unitName = "politweetsPU")
-	private EntityManager em;
-	
-	public PartidoFacadeEJB() {
-		super(Partido.class);
-	}
 
-	@Override
-	protected EntityManager getEntityManager() {
-		return this.em;
-	}
+    @PersistenceContext(unitName = "politweetsPU")
+    private EntityManager em;
+
+    public PartidoFacadeEJB() {
+        super(Partido.class);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return this.em;
+    }
 
 }

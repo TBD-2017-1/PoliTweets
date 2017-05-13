@@ -11,17 +11,16 @@ import model.Admin;
 @Stateless
 public class AdminFacadeEJB extends AbstractFacade<Admin> implements AdminFacade {
 	
-	
-	@PersistenceContext(unitName = "politweetsPU")
-	private EntityManager em;
-	
-	public AdminFacadeEJB() {
-		super(Admin.class);
-	}
+    @PersistenceContext(unitName = "politweetsPU")
+    private EntityManager em;
 
-	@Override
-	protected EntityManager getEntityManager() {
-		return this.em;
-	}
+    public AdminFacadeEJB() {
+        super(Admin.class);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return this.em;
+    }
 
 }

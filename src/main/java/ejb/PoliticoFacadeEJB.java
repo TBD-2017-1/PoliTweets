@@ -9,19 +9,18 @@ import facade.PoliticoFacade;
 import model.Politico;
 
 @Stateless
-public class PoliticoFacadeEJB extends AbstractFacade<Politico> implements PoliticoFacade {
+public class PoliticoFacadeEJB extends AbstractFacade<Politico> implements PoliticoFacade {	
 	
-	
-	@PersistenceContext(unitName = "politweetsPU")
-	private EntityManager em;
-	
-	public PoliticoFacadeEJB() {
-		super(Politico.class);
-	}
+    @PersistenceContext(unitName = "politweetsPU")
+    private EntityManager em;
 
-	@Override
-	protected EntityManager getEntityManager() {
-		return this.em;
-	}
+    public PoliticoFacadeEJB() {
+        super(Politico.class);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return this.em;
+    }
 
 }
