@@ -54,10 +54,8 @@ public class AdminService {
 	
     @POST
     @Consumes({"application/xml", "application/json"})
-    @Produces({"application/xml", "application/json"})
-    public Admin create(Admin entity) {
+    public void create(Admin entity) {
         adminFacadeEJB.create(entity);
-        return new_admin;
     }
 
     @PUT
