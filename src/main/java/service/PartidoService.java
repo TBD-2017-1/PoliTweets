@@ -100,4 +100,16 @@ public class PartidoService {
         partidoFacadeEJB.remove(partidoFacadeEJB.find(id));
     }
     
+    @DELETE
+    @Path("{id}/removekeyword/{idkeyword}")
+    public void removeKeyword(@PathParam("id") Integer id, @PathParam("idkeyword") Integer idkeyword){
+        //Join
+        Partido partido = partidoFacadeEJB.find(id);
+        Keyword keyword = keywordFacadeEJB.find(idkeyword);
+        partido.removeKeyword(keyword);
+        keyword.removePartido(partido);
+        //Merge a BD
+        partidoFacadeEJB.edit(partido);
+        keywordFacadeEJB.edit(keyword);
+    }
 }

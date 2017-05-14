@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -94,5 +95,15 @@ public class Partido implements Serializable {
 
     public void addKeyword(Keyword keyword) {
         this.keywords.add(keyword);
+    }
+    
+    public void removeKeyword(Keyword keyword){
+        List<Keyword> toRemove = new ArrayList<>();
+        for (Keyword pk : this.keywords) {
+            if(pk.getId() == keyword.getId()){
+                toRemove.add(pk);
+            }
+        }
+        this.keywords.removeAll(toRemove);
     }
 }

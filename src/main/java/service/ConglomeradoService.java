@@ -101,12 +101,15 @@ public class ConglomeradoService {
     }
     
     @DELETE
-    @Path("{id}/removekeyword")
-    @Consumes({"application/xml", "application/json"})
-    public void removeKeyword(@PathParam("id") Integer id, Keyword keyword){
+    @Path("{id}/removekeyword/{idkeyword}")
+    public void removeKeyword(@PathParam("id") Integer id, @PathParam("idkeyword") Integer idkeyword){
+        //Join
         Conglomerado conglomerado = conglomeradoFacadeEJB.find(id);
+        Keyword keyword = keywordFacadeEJB.find(idkeyword);
         conglomerado.removeKeyword(keyword);
         keyword.removeConglomerado(conglomerado);
+        //Merge a BD
         conglomeradoFacadeEJB.edit(conglomerado);
+        keywordFacadeEJB.edit(keyword);
     }
 }

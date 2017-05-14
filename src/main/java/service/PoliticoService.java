@@ -99,5 +99,17 @@ public class PoliticoService {
     public void remove(@PathParam("id") Integer id) {
         politicoFacadeEJB.remove(politicoFacadeEJB.find(id));
     }
-	
+    
+    @DELETE
+    @Path("{id}/removekeyword/{idkeyword}")
+    public void removeKeyword(@PathParam("id") Integer id, @PathParam("idkeyword") Integer idkeyword){
+        //Join
+        Politico politico = politicoFacadeEJB.find(id);
+        Keyword keyword = keywordFacadeEJB.find(idkeyword);
+        politico.removeKeyword(keyword);
+        keyword.removePolitico(politico);
+        //Merge a BD
+        politicoFacadeEJB.edit(politico);
+        keywordFacadeEJB.edit(keyword);
+    }
 }

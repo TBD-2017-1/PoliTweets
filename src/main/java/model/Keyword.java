@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -79,7 +80,13 @@ public class Keyword implements Serializable {
     }
     
     public void removeConglomerado(Conglomerado conglomerado){
-        this.conglomerados_keywords.remove(conglomerado);
+        List<Conglomerado> toRemove = new ArrayList<>();
+        for (Conglomerado ck : this.conglomerados_keywords) {
+            if(ck.getId() == conglomerado.getId()){
+                toRemove.add(ck);
+            }
+        }
+        this.conglomerados_keywords.removeAll(toRemove);
     }
 
     public List<Partido> getPartidos(){
@@ -89,6 +96,16 @@ public class Keyword implements Serializable {
     public void addPartido(Partido partido){
         this.partidos_keywords.add(partido);
     }
+    
+    public void removePartido(Partido partido){
+        List<Partido> toRemove = new ArrayList<>();
+        for (Partido pk : this.partidos_keywords) {
+            if(pk.getId() == partido.getId()){
+                toRemove.add(pk);
+            }
+        }
+        this.partidos_keywords.removeAll(toRemove);
+    }
 
     public List<Politico> getPoliticos(){
         return this.politicos_keywords;
@@ -96,5 +113,15 @@ public class Keyword implements Serializable {
 
     public void addPolitico(Politico politicos){
         this.politicos_keywords.add(politicos);
+    }
+    
+    public void removePolitico(Politico politico){
+        List<Politico> toRemove = new ArrayList<>();
+        for (Politico pk : this.politicos_keywords) {
+            if(pk.getId() == politico.getId()){
+                toRemove.add(pk);
+            }
+        }
+        this.politicos_keywords.removeAll(toRemove);
     }
 }

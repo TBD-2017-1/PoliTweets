@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -96,6 +97,12 @@ public class Conglomerado implements Serializable {
     }
 	
     public void removeKeyword(Keyword keyword){
-        this.keywords.remove(keyword);
+        List<Keyword> toRemove = new ArrayList<>();
+        for (Keyword ck : this.keywords) {
+            if(ck.getId() == keyword.getId()){
+                toRemove.add(ck);
+            }
+        }
+        this.keywords.removeAll(toRemove);
     }
 }
