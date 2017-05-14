@@ -32,9 +32,52 @@ public class ConglomeradoMetrica implements Serializable {
     private String lugar;
 
     //Relations
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idconglomerado", referencedColumnName="id")
+    private Conglomerado conglomerado_metrica;
 
     //Methods
     public ConglomeradoMetrica() {
     }
-	
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public float getValor() {
+        return valor;
+    }
+
+    public void setValor(float valor) {
+        this.valor = valor;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
+
+    public Conglomerado getConglomerado() {
+        return conglomerado_metrica;
+    }
+
+    public void setConglomerado(Conglomerado conglomerado_metrica) {
+        this.conglomerado_metrica = conglomerado_metrica;
+    }
+    
 }

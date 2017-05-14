@@ -32,9 +32,52 @@ public class PoliticoMetrica implements Serializable {
     private String lugar;
 
     //Relations
-
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idpolitico", referencedColumnName="id")
+    private Politico politico_metrica;
+    
     //Methods
     public PoliticoMetrica() {
     }
-	
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public float getValor() {
+        return valor;
+    }
+
+    public void setValor(float valor) {
+        this.valor = valor;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
+
+    public Politico getPolitico_metrica() {
+        return politico_metrica;
+    }
+
+    public void setPolitico_metrica(Politico politico_metrica) {
+        this.politico_metrica = politico_metrica;
+    }
+
 }

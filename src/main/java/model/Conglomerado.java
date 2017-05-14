@@ -32,6 +32,9 @@ public class Conglomerado implements Serializable {
 
     @OneToMany(mappedBy="conglomerado_politico")
     private List<Politico> listaPoliticos;
+    
+    @OneToMany(mappedBy="conglomerado_metrica")
+    private List<ConglomeradoMetrica> conglomeradoMetrica;
 
     @ManyToMany(mappedBy="conglomerados_keywords", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private List<Keyword> keywords;
@@ -78,6 +81,10 @@ public class Conglomerado implements Serializable {
 
     public void addPolitico(Politico politico){
         this.listaPoliticos.add(politico);
+    }
+
+    public List<ConglomeradoMetrica> getConglomeradoMetrica() {
+        return conglomeradoMetrica;
     }
 
     public List<Keyword> getKeywords() {

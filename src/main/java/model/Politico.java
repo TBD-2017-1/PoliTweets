@@ -37,7 +37,10 @@ public class Politico implements Serializable {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="idpartido", referencedColumnName="id")
-    private Partido partido;
+    private Partido partido_politico;
+    
+    @OneToMany(mappedBy="politico_metrica")
+    private List<PoliticoMetrica> politicoMetrica;
 
     @ManyToMany(mappedBy="politicos_keywords", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private List<Keyword> keywords;
@@ -87,19 +90,19 @@ public class Politico implements Serializable {
     }
 
     public Partido getPartido() {
-        return partido;
+        return partido_politico;
     }
 
-    public void setPartido(Partido partido) {
-        this.partido = partido;
+    public void setPartido(Partido partido_politico) {
+        this.partido_politico = partido_politico;
+    }
+    
+    public List<PoliticoMetrica> getPartidoMetrica(){
+        return politicoMetrica;
     }
 
     public List<Keyword> getKeywords() {
         return keywords;
-    }
-    
-    public void setKeywords(List<Keyword> keywords){
-        this.keywords = keywords;
     }
 
     public void addKeyword(Keyword keyword) {

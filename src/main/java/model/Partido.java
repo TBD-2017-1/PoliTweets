@@ -31,9 +31,12 @@ public class Partido implements Serializable {
     @JoinColumn(name="idconglomerado", referencedColumnName="id")
     private Conglomerado conglomerado_partido;
 
-    @OneToMany(mappedBy="partido")
+    @OneToMany(mappedBy="partido_politico")
     private List<Politico> listaPoliticos;
 
+    @OneToMany(mappedBy="partido_metrica")
+    private List<PartidoMetrica> partidoMetrica;
+    
     @ManyToMany(mappedBy="partidos_keywords", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private List<Keyword> keywords;
 
@@ -81,12 +84,12 @@ public class Partido implements Serializable {
         this.listaPoliticos.add(politico);
     }
 
+    public List<PartidoMetrica> getPartidoMetrica() {
+        return partidoMetrica;
+    }
+
     public List<Keyword> getKeywords() {
         return keywords;
-    }
-    
-    public void setKeywords(List<Keyword> keywords){
-        this.keywords = keywords;
     }
 
     public void addKeyword(Keyword keyword) {
