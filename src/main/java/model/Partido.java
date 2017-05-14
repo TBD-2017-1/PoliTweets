@@ -27,20 +27,14 @@ public class Partido implements Serializable {
     private String cuentaTwitter;
 
     //Relations
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idconglomerado")
+    @ManyToOne
+    @JoinColumn(name="idconglomerado", referencedColumnName="id")
     private Conglomerado conglomerado_partido;
 
     @OneToMany(mappedBy="partido")
     private List<Politico> listaPoliticos;
 
-    @JoinTable
-    (
-        name="partido_keyword",
-        joinColumns={ @JoinColumn(name="idpartido", referencedColumnName="id") },
-        inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
-    )
-    @OneToMany
+    @ManyToMany(mappedBy="partidos_keywords", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private List<Keyword> keywords;
 
     //Methods
@@ -89,6 +83,10 @@ public class Partido implements Serializable {
 
     public List<Keyword> getKeywords() {
         return keywords;
+    }
+    
+    public void setKeywords(List<Keyword> keywords){
+        this.keywords = keywords;
     }
 
     public void addKeyword(Keyword keyword) {

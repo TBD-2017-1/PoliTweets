@@ -33,13 +33,7 @@ public class Conglomerado implements Serializable {
     @OneToMany(mappedBy="conglomerado_politico")
     private List<Politico> listaPoliticos;
 
-    @JoinTable
-    (
-        name="conglomerado_keyword",
-        joinColumns={ @JoinColumn(name="idconglomerado", referencedColumnName="id") },
-        inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
-    )
-    @OneToMany
+    @ManyToMany(mappedBy="conglomerados_keywords", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private List<Keyword> keywords;
 
     //Methods
@@ -94,4 +88,7 @@ public class Conglomerado implements Serializable {
         this.keywords.add(keyword);
     }
 	
+    public void removeKeyword(Keyword keyword){
+        this.keywords.remove(keyword);
+    }
 }

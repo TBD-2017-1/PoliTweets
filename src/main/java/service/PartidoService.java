@@ -1,5 +1,6 @@
 package service;
 
+import facade.KeywordFacade;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -24,6 +25,8 @@ public class PartidoService {
 	
     @EJB 
     PartidoFacade partidoFacadeEJB;
+    @EJB
+    KeywordFacade keywordFacadeEJB;
 	
     Logger logger = Logger.getLogger(PartidoService.class.getName());
 	
@@ -61,17 +64,19 @@ public class PartidoService {
     }
 	
     @POST
-    @Path("{id}/addpolitico")
-    @Consumes({"application/xml", "application/json"})
-    public void addPolitico(@PathParam("id") Integer id, Politico politico) {
-        partidoFacadeEJB.find(id).addPolitico(politico);
-    }
-	
-    @POST
     @Path("{id}/addkeyword")
     @Consumes({"application/xml", "application/json"})
     public void addKeyword(@PathParam("id") Integer id, Keyword keyword) {
-		partidoFacadeEJB.find(id).addKeyword(keyword);
+        //Creacion nueva keyword
+        keywordFacadeEJB.create(keyword);
+        keyword = keywordFacadeEJB.findByValue(keyword);
+        //Join
+        Partido partido = partidoFacadeEJB.find(id);
+        partido.addKeyword(keyword);
+        keyword.addPartido(partido);
+        //Merge a BD
+        partidoFacadeEJB.edit(partido);
+        keywordFacadeEJB.edit(keyword);
     }
 
     @PUT

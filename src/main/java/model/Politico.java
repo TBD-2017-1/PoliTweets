@@ -12,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="politico")
-@NamedQuery(name="Politico.findAll", query="SELECT a FROM Politico a")
+@NamedQuery(name="Politico.findAll", query="SELECT p FROM Politico p")
 public class Politico implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -32,20 +32,14 @@ public class Politico implements Serializable {
 
     //Relations
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idconglomerado")
+    @JoinColumn(name="idconglomerado", referencedColumnName="id")
     private Conglomerado conglomerado_politico;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idpartido")
+    @JoinColumn(name="idpartido", referencedColumnName="id")
     private Partido partido;
 
-    @JoinTable
-    (
-        name="politico_keyword",
-        joinColumns={ @JoinColumn(name="idpolitico", referencedColumnName="id") },
-        inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
-    )
-    @OneToMany
+    @ManyToMany(mappedBy="politicos_keywords", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private List<Keyword> keywords;
 
     //Methods
@@ -55,7 +49,7 @@ public class Politico implements Serializable {
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
@@ -102,6 +96,10 @@ public class Politico implements Serializable {
 
     public List<Keyword> getKeywords() {
         return keywords;
+    }
+    
+    public void setKeywords(List<Keyword> keywords){
+        this.keywords = keywords;
     }
 
     public void addKeyword(Keyword keyword) {

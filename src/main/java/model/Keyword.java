@@ -23,31 +23,31 @@ public class Keyword implements Serializable {
     @Column(name="value", nullable=false, unique=true, length=45)
     private String value;
 
+    @ManyToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     @JoinTable
     (
         name="conglomerado_keyword",
         joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
         inverseJoinColumns={ @JoinColumn(name="idconglomerado", referencedColumnName="id") }
     )
-    @OneToMany
     private List<Conglomerado> conglomerados_keywords;
 
+    @ManyToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     @JoinTable
     (
         name="partido_keyword",
         joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
         inverseJoinColumns={ @JoinColumn(name="idpartido", referencedColumnName="id") }
     )
-    @OneToMany
     private List<Partido> partidos_keywords;
 
+    @ManyToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     @JoinTable
     (
         name="politico_keyword",
         joinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") },
         inverseJoinColumns={ @JoinColumn(name="idpolitico", referencedColumnName="id") }
     )
-    @OneToMany
     private List<Politico> politicos_keywords;
 
 
@@ -76,6 +76,10 @@ public class Keyword implements Serializable {
 
     public void addConglomerado(Conglomerado conglomerado){
         this.conglomerados_keywords.add(conglomerado);
+    }
+    
+    public void removeConglomerado(Conglomerado conglomerado){
+        this.conglomerados_keywords.remove(conglomerado);
     }
 
     public List<Partido> getPartidos(){
