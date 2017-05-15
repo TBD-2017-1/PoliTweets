@@ -32,7 +32,8 @@ public class CronServiceEJB {
     @EJB
     private PoliticoFacadeEJB politicoEJB;
 
-    @Schedule(persistent=false) // Todos los dias a las 00:00
+    //@Schedule(persistent=false) // Todos los dias a las 00:00
+    @Schedule(hour = "*", persistent = false) // cada hora
     public void doCRON(){
         doIndexation();
         doMetricasPoliticos();

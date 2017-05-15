@@ -21,4 +21,6 @@ public interface MetricaFacade {
 
     public int count();
 
+    public Metrica findByName(String name);
+
 }
