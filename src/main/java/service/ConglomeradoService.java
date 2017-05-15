@@ -15,6 +15,10 @@ import javax.ws.rs.Produces;
 
 import facade.ConglomeradoFacade;
 import facade.KeywordFacade;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import javax.json.Json;
+import javax.json.JsonObject;
 import model.Conglomerado;
 import model.ConglomeradoMetrica;
 import model.Keyword;

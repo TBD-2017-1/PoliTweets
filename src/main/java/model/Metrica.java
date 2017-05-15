@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ import javax.persistence.*;
 public class Metrica implements Serializable {
     private static final long serialVersionUID = 1L;
     
+    //Atributes
     @Id
     @Column(name="id", unique=true, nullable=false)
     private int id;
@@ -22,6 +24,17 @@ public class Metrica implements Serializable {
     @Column(name="nombre", nullable=false, length=45)
     private String nombre;
     
+    //Relations
+    @OneToMany(mappedBy="metrica_conglomerado")
+    private List<ConglomeradoMetrica> conglomeradoMetrica;
+    
+    @OneToMany(mappedBy="metrica_partido")
+    private List<PartidoMetrica> partidoMetrica;
+    
+    @OneToMany(mappedBy="metrica_politico")
+    private List<PoliticoMetrica> politicoMetrica;
+    
+    //Methods
     public Metrica() {
     }
 
@@ -40,5 +53,19 @@ public class Metrica implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public List<ConglomeradoMetrica> getConglomeradoMetrica() {
+        return conglomeradoMetrica;
+    }
+
+    public List<PartidoMetrica> getPartidoMetrica() {
+        return partidoMetrica;
+    }
+
+    public List<PoliticoMetrica> getPoliticoMetrica() {
+        return politicoMetrica;
+    }
+    
+    
     
 }

@@ -15,10 +15,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import facade.PoliticoFacade;
+import java.math.BigDecimal;
+import javax.json.Json;
+import javax.json.JsonObject;
 import model.Conglomerado;
 import model.Keyword;
 import model.Partido;
 import model.Politico;
+import model.PoliticoMetrica;
 
 @Path("/politicos")
 public class PoliticoService {
@@ -48,6 +52,13 @@ public class PoliticoService {
     @Produces({"application/xml", "application/json"})
     public List<Keyword> getKeywords(@PathParam("id") Integer id) {
         return politicoFacadeEJB.find(id).getKeywords();
+    }
+    
+    @GET
+    @Path("{id}/metricas")
+    @Produces({"application/xml", "application/json"})
+    public List<PoliticoMetrica> getMetricas(@PathParam("id") Integer id) {
+        return politicoFacadeEJB.find(id).getPoliticoMetrica();
     }
 	
     @POST
