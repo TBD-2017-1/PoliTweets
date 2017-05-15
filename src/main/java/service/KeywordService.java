@@ -1,4 +1,4 @@
-package service;
+ package service;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -13,8 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import facade.KeywordFacade;
+import model.Conglomerado;
 import model.Keyword;
-import model.Partido;
 
 @Path("/keywords")
 public class KeywordService {
@@ -40,8 +40,8 @@ public class KeywordService {
     @GET
     @Path("{id}/partidos")
     @Produces({"application/xml", "application/json"})
-    public List<Partido> getPartidos(@PathParam("id") Integer id) {
-        return keywordFacadeEJB.find(id).getPartidos();
+    public List<Conglomerado> getConglomerados(@PathParam("id") Integer id) {
+        return keywordFacadeEJB.find(id).getConglomerados();
     }
 
     @PUT

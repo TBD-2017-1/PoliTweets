@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -27,20 +28,17 @@ public class Partido implements Serializable {
     private String cuentaTwitter;
 
     //Relations
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idconglomerado")
+    @ManyToOne
+    @JoinColumn(name="idconglomerado", referencedColumnName="id")
     private Conglomerado conglomerado_partido;
 
-    @OneToMany(mappedBy="partido")
+    @OneToMany(mappedBy="partido_politico")
     private List<Politico> listaPoliticos;
 
-    @JoinTable
-    (
-        name="partido_keyword",
-        joinColumns={ @JoinColumn(name="idpartido", referencedColumnName="id") },
-        inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
-    )
-    @OneToMany
+    @OneToMany(mappedBy="partido_metrica")
+    private List<PartidoMetrica> partidoMetrica;
+    
+    @ManyToMany(mappedBy="partidos_keywords", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private List<Keyword> keywords;
 
     //Methods
@@ -87,11 +85,25 @@ public class Partido implements Serializable {
         this.listaPoliticos.add(politico);
     }
 
+    public List<PartidoMetrica> getPartidoMetrica() {
+        return partidoMetrica;
+    }
+
     public List<Keyword> getKeywords() {
         return keywords;
     }
 
     public void addKeyword(Keyword keyword) {
         this.keywords.add(keyword);
+    }
+    
+    public void removeKeyword(Keyword keyword){
+        List<Keyword> toRemove = new ArrayList<>();
+        for (Keyword pk : this.keywords) {
+            if(pk.getId() == keyword.getId()){
+                toRemove.add(pk);
+            }
+        }
+        this.keywords.removeAll(toRemove);
     }
 }

@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -32,14 +33,11 @@ public class Conglomerado implements Serializable {
 
     @OneToMany(mappedBy="conglomerado_politico")
     private List<Politico> listaPoliticos;
+    
+    @OneToMany(mappedBy="conglomerado_metrica")
+    private List<ConglomeradoMetrica> conglomeradoMetrica;
 
-    @JoinTable
-    (
-        name="conglomerado_keyword",
-        joinColumns={ @JoinColumn(name="idconglomerado", referencedColumnName="id") },
-        inverseJoinColumns={ @JoinColumn(name="idkeyword", referencedColumnName="id") }
-    )
-    @OneToMany
+    @ManyToMany(mappedBy="conglomerados_keywords", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     private List<Keyword> keywords;
 
     //Methods
@@ -86,6 +84,10 @@ public class Conglomerado implements Serializable {
         this.listaPoliticos.add(politico);
     }
 
+    public List<ConglomeradoMetrica> getConglomeradoMetrica() {
+        return conglomeradoMetrica;
+    }
+
     public List<Keyword> getKeywords() {
         return keywords;
     }
@@ -94,4 +96,13 @@ public class Conglomerado implements Serializable {
         this.keywords.add(keyword);
     }
 	
+    public void removeKeyword(Keyword keyword){
+        List<Keyword> toRemove = new ArrayList<>();
+        for (Keyword ck : this.keywords) {
+            if(ck.getId() == keyword.getId()){
+                toRemove.add(ck);
+            }
+        }
+        this.keywords.removeAll(toRemove);
+    }
 }

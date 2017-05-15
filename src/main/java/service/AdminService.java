@@ -3,19 +3,18 @@ package service;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
-import javax.json.Json;
-import javax.json.JsonObject;
+import javax.ejb.EJB;;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import facade.AdminFacade;
-import jdk.nashorn.internal.runtime.JSONListAdapter;
 import model.Admin;
 
 @Path("/admins")
@@ -42,14 +41,19 @@ public class AdminService {
     @GET
     @Path("verify/{username}/{password}")
     @Produces({"application/xml", "application/json"})
-    public Admin verify(@PathParam("username") String username, @PathParam("password") String password){
+    /*
+    @Return 
+        302 - Found - Usuario valido
+        404 - Not Found - Usuario no valido
+    */
+    public Response verify(@PathParam("username") String username, @PathParam("password") String password){
     	List<Admin> admins = adminFacadeEJB.findAll();
             for (Admin admin : admins) {
-                if(admin.getUsername().equals(username) && admin.getPassword().equals(password)){
-                    return admin;
-		}
+                if(admin.verify(username, password)){
+                    return Response.status(Response.Status.FOUND).build();
+                }
             }
-        return new Admin();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 	
     @POST
@@ -66,5 +70,9 @@ public class AdminService {
         adminFacadeEJB.edit(entity);
     }
 	
-
+    @DELETE
+    @Path("{id}")
+    public void remove(Admin entity) {
+        adminFacadeEJB.remove(entity);
+    }
 }

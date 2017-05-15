@@ -1,5 +1,6 @@
 package service;
 
+import facade.KeywordFacade;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -24,6 +25,8 @@ public class PoliticoService {
 	
     @EJB 
     PoliticoFacade politicoFacadeEJB;
+    @EJB
+    KeywordFacade keywordFacadeEJB;
 	
     Logger logger = Logger.getLogger(PoliticoService.class.getName());
 	
@@ -57,7 +60,16 @@ public class PoliticoService {
     @Path("{id}/addkeyword")
     @Consumes({"application/xml", "application/json"})
     public void addKeyword(@PathParam("id") Integer id, Keyword keyword) {
-        politicoFacadeEJB.find(id).addKeyword(keyword);
+        //Creacion nueva keyword
+        keywordFacadeEJB.create(keyword);
+        keyword = keywordFacadeEJB.findByValue(keyword);
+        //Join
+        Politico politico = politicoFacadeEJB.find(id);
+        politico.addKeyword(keyword);
+        keyword.addPolitico(politico);
+        //Merge a BD
+        politicoFacadeEJB.edit(politico);
+        keywordFacadeEJB.edit(keyword);
     }
 
     @PUT
@@ -87,5 +99,17 @@ public class PoliticoService {
     public void remove(@PathParam("id") Integer id) {
         politicoFacadeEJB.remove(politicoFacadeEJB.find(id));
     }
-	
+    
+    @DELETE
+    @Path("{id}/removekeyword/{idkeyword}")
+    public void removeKeyword(@PathParam("id") Integer id, @PathParam("idkeyword") Integer idkeyword){
+        //Join
+        Politico politico = politicoFacadeEJB.find(id);
+        Keyword keyword = keywordFacadeEJB.find(idkeyword);
+        politico.removeKeyword(keyword);
+        keyword.removePolitico(politico);
+        //Merge a BD
+        politicoFacadeEJB.edit(politico);
+        keywordFacadeEJB.edit(keyword);
+    }
 }

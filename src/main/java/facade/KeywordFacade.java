@@ -20,5 +20,7 @@ public interface KeywordFacade {
     public List<Keyword> findRange(int[] range);
 
     public int count();
+    
+    public Keyword findByValue(Keyword keyword);
 
 }

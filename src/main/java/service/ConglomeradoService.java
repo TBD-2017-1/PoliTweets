@@ -14,7 +14,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import facade.ConglomeradoFacade;
+import facade.KeywordFacade;
 import model.Conglomerado;
+import model.ConglomeradoMetrica;
 import model.Keyword;
 import model.Partido;
 import model.Politico;
@@ -24,6 +26,8 @@ public class ConglomeradoService {
 	
     @EJB 
     ConglomeradoFacade conglomeradoFacadeEJB;
+    @EJB
+    KeywordFacade keywordFacadeEJB;
 	
     Logger logger = Logger.getLogger(ConglomeradoService.class.getName());
 	
@@ -53,6 +57,13 @@ public class ConglomeradoService {
     public List<Politico> getPoliticos(@PathParam("id") Integer id) {
         return conglomeradoFacadeEJB.find(id).getListaPoliticos();
     }
+    
+    @GET
+    @Path("{id}/metricas")
+    @Produces({"application/xml", "application/json"})
+    public List<ConglomeradoMetrica> getMetricas(@PathParam("id") Integer id) {
+        return conglomeradoFacadeEJB.find(id).getConglomeradoMetrica();
+    }
 	
     @GET
     @Path("{id}/keywords")
@@ -68,24 +79,19 @@ public class ConglomeradoService {
     }
 	
     @POST
-    @Path("{id}/addpartido")
-    @Consumes({"application/xml", "application/json"})
-    public void addPartido(@PathParam("id") Integer id, Partido partido) {
-        conglomeradoFacadeEJB.find(id).addPartido(partido);
-    }
-	
-    @POST
-    @Path("{id}/addpolitico")
-    @Consumes({"application/xml", "application/json"})
-    public void addPolitico(@PathParam("id") Integer id, Politico politico) {
-        conglomeradoFacadeEJB.find(id).addPolitico(politico);
-    }
-	
-    @POST
     @Path("{id}/addkeyword")
     @Consumes({"application/xml", "application/json"})
     public void addKeyword(@PathParam("id") Integer id, Keyword keyword) {
-        conglomeradoFacadeEJB.find(id).addKeyword(keyword);
+        //Creacion nueva keyword
+        keywordFacadeEJB.create(keyword);
+        keyword = keywordFacadeEJB.findByValue(keyword);
+        //Join
+        Conglomerado conglomerado = conglomeradoFacadeEJB.find(id);
+        conglomerado.addKeyword(keyword);
+        keyword.addConglomerado(conglomerado);
+        //Merge a BD
+        conglomeradoFacadeEJB.edit(conglomerado);
+        keywordFacadeEJB.edit(keyword);
     }
 
     @PUT
@@ -100,5 +106,18 @@ public class ConglomeradoService {
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
         conglomeradoFacadeEJB.remove(conglomeradoFacadeEJB.find(id));
+    }
+    
+    @DELETE
+    @Path("{id}/removekeyword/{idkeyword}")
+    public void removeKeyword(@PathParam("id") Integer id, @PathParam("idkeyword") Integer idkeyword){
+        //Join
+        Conglomerado conglomerado = conglomeradoFacadeEJB.find(id);
+        Keyword keyword = keywordFacadeEJB.find(idkeyword);
+        conglomerado.removeKeyword(keyword);
+        keyword.removeConglomerado(conglomerado);
+        //Merge a BD
+        conglomeradoFacadeEJB.edit(conglomerado);
+        keywordFacadeEJB.edit(keyword);
     }
 }
