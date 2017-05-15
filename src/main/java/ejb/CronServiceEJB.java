@@ -3,8 +3,11 @@ package ejb;
 import PoliTweetsCL.Core.BD.MongoDBController;
 import PoliTweetsCL.Core.Model.Tweet;
 import PoliTweetsCL.TextAPI.TextIndex;
+import facade.*;
 import model.*;
+import service.AdminService;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -16,35 +19,39 @@ import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Startup
 @Singleton
 public class CronServiceEJB {
 
-    private MongoDBController mongo = new MongoDBController("admin","DigitalOceanServer");
+    private MongoDBController mongo = new MongoDBController("admin","x");
 
-    @Inject
-    private TextIndex textIndex;
+    private TextIndex textIndex = new TextIndex();
 
     @EJB
-    private ConglomeradoFacadeEJB conglomeradoEJB;
+    private ConglomeradoFacade conglomeradoEJB;
     @EJB
-    private PartidoFacadeEJB partidoEJB;
+    private PartidoFacade partidoEJB;
     @EJB
-    private PoliticoFacadeEJB politicoEJB;
+    private PoliticoFacade politicoEJB;
     @EJB
-    private MetricaFacadeEJB metricaEJB;
+    private MetricaFacade metricaEJB;
     @EJB
-    private ConglomeradoMetricaFacadeEJB conglomeradoMetricaEJB;
+    private ConglomeradoMetricaFacade conglomeradoMetricaEJB;
     @EJB
-    private PartidoMetricaFacadeEJB partidoMetricaEJB;
+    private PartidoMetricaFacade partidoMetricaEJB;
     @EJB
-    private PoliticoMetricaFacadeEJB politicoMetricaEJB;
+    private PoliticoMetricaFacade politicoMetricaEJB;
 
     private Date now;
 
+    Logger logger = Logger.getLogger(getClass().getName());
+
+
     //@Schedule(persistent=false) // Todos los dias a las 00:00
-    @Schedule(hour = "*", persistent = false) // cada hora
+    //@Schedule(hour = "*", persistent = false) // cada hora
+    @Schedule(minute = "*", persistent = false) // cada minuto
     public void doCRON(){
         // Guardar el tiempo de la metrica
         now = Date.from(Instant.now().truncatedTo(ChronoUnit.HOURS));
@@ -61,6 +68,7 @@ public class CronServiceEJB {
 
         // indexar en lucene
         int tweetsIndexados = textIndex.crearIndice(tweets);
+        logger.info("Tweets indexados");
     }
 
     private void doMetricasPoliticos(){
@@ -89,28 +97,30 @@ public class CronServiceEJB {
             // guardar metrica en BD
 
             PoliticoMetrica registro = new PoliticoMetrica();
-            registro.setMetrica_politico(metricaEJB.findByName("Aprobación"));
+            registro.setMetrica_politico(metricaEJB.findByName("aprobacion"));
             registro.setPolitico_metrica(politico);
             registro.setFecha(now);
             registro.setValor(aprobacion);
             politicoMetricaEJB.create(registro);
 
+            logger.info(registro.toString());
+
             registro = new PoliticoMetrica();
-            registro.setMetrica_politico(metricaEJB.findByName("Sentimiento Positivo"));
+            registro.setMetrica_politico(metricaEJB.findByName("sentimientoPositivo"));
             registro.setPolitico_metrica(politico);
             registro.setFecha(now);
             registro.setValor(positiveCount/(float)hits);
             politicoMetricaEJB.create(registro);
 
             registro = new PoliticoMetrica();
-            registro.setMetrica_politico(metricaEJB.findByName("Sentimiento Negativo"));
+            registro.setMetrica_politico(metricaEJB.findByName("sentimientoNegativo"));
             registro.setPolitico_metrica(politico);
             registro.setFecha(now);
             registro.setValor(negativeCount/(float)hits);
             politicoMetricaEJB.create(registro);
 
             registro = new PoliticoMetrica();
-            registro.setMetrica_politico(metricaEJB.findByName("Sentimiento Neutro"));
+            registro.setMetrica_politico(metricaEJB.findByName("sentimientoNeutro"));
             registro.setPolitico_metrica(politico);
             registro.setFecha(now);
             registro.setValor(neutralCount/(float)hits);
@@ -146,28 +156,28 @@ public class CronServiceEJB {
             // guardar metrica en BD
 
             PartidoMetrica registro = new PartidoMetrica();
-            registro.setMetrica_partido(metricaEJB.findByName("Aprobación"));
+            registro.setMetrica_partido(metricaEJB.findByName("aprobacion"));
             registro.setPartido_metrica(partido);
             registro.setFecha(now);
             registro.setValor(aprobacion);
             partidoMetricaEJB.create(registro);
 
             registro = new PartidoMetrica();
-            registro.setMetrica_partido(metricaEJB.findByName("Sentimiento Positivo"));
+            registro.setMetrica_partido(metricaEJB.findByName("sentimientoPositivo"));
             registro.setPartido_metrica(partido);
             registro.setFecha(now);
             registro.setValor(positiveCount/(float)hits);
             partidoMetricaEJB.create(registro);
 
             registro = new PartidoMetrica();
-            registro.setMetrica_partido(metricaEJB.findByName("Sentimiento Negativo"));
+            registro.setMetrica_partido(metricaEJB.findByName("sentimientoNegativo"));
             registro.setPartido_metrica(partido);
             registro.setFecha(now);
             registro.setValor(negativeCount/(float)hits);
             partidoMetricaEJB.create(registro);
 
             registro = new PartidoMetrica();
-            registro.setMetrica_partido(metricaEJB.findByName("Sentimiento Neutro"));
+            registro.setMetrica_partido(metricaEJB.findByName("sentimientoNeutro"));
             registro.setPartido_metrica(partido);
             registro.setFecha(now);
             registro.setValor(neutralCount/(float)hits);
@@ -202,28 +212,28 @@ public class CronServiceEJB {
             // guardar metrica en BD
 
             ConglomeradoMetrica registro = new ConglomeradoMetrica();
-            registro.setMetrica(metricaEJB.findByName("Aprobación"));
+            registro.setMetrica(metricaEJB.findByName("aprobacion"));
             registro.setConglomerado(congl);
             registro.setFecha(now);
             registro.setValor(aprobacion);
             conglomeradoMetricaEJB.create(registro);
 
             registro = new ConglomeradoMetrica();
-            registro.setMetrica(metricaEJB.findByName("Sentimiento Positivo"));
+            registro.setMetrica(metricaEJB.findByName("sentimientoPositivo"));
             registro.setConglomerado(congl);
             registro.setFecha(now);
             registro.setValor(positiveCount/(float)hits);
             conglomeradoMetricaEJB.create(registro);
 
             registro = new ConglomeradoMetrica();
-            registro.setMetrica(metricaEJB.findByName("Sentimiento Negativo"));
+            registro.setMetrica(metricaEJB.findByName("sentimientoNegativo"));
             registro.setConglomerado(congl);
             registro.setFecha(now);
             registro.setValor(negativeCount/(float)hits);
             conglomeradoMetricaEJB.create(registro);
 
             registro = new ConglomeradoMetrica();
-            registro.setMetrica(metricaEJB.findByName("Sentimiento Neutro"));
+            registro.setMetrica(metricaEJB.findByName("sentimientoNeutro"));
             registro.setConglomerado(congl);
             registro.setFecha(now);
             registro.setValor(neutralCount/(float)hits);

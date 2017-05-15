@@ -70,7 +70,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `metrica` WRITE;
 /*!40000 ALTER TABLE `metrica` DISABLE KEYS */;
-INSERT INTO `metrica` VALUES (1,'Aprobación'),(2,'Sentimiento Positivo'),(3,'Sentimiento Negativo'),(4,'Sentimiento Neutro');
+INSERT INTO `metrica` VALUES (1,'aprobacion'),(2,'sentimientoPositivo'),(3,'sentimientoNegativo'),(4,'sentimientoNeutro');
 /*!40000 ALTER TABLE `metrica` ENABLE KEYS */;
 UNLOCK TABLES;
 
