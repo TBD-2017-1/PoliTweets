@@ -5,23 +5,21 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import facade.AbstractFacade;
-import facade.ConglomeradoMetricaFacade;
-import java.util.List;
-import model.ConglomeradoMetrica;
+import facade.MetricaFacade;
+import model.Metrica;
 
 @Stateless
-public class ConglomeradoMetricaFacadeEJB extends AbstractFacade<ConglomeradoMetrica> implements ConglomeradoMetricaFacade {
+public class MetricaFacadeEJB extends AbstractFacade<Metrica> implements MetricaFacade {	
 	
     @PersistenceContext(unitName = "politweetsPU")
     private EntityManager em;
 
-    public ConglomeradoMetricaFacadeEJB() {
-        super(ConglomeradoMetrica.class);
+    public MetricaFacadeEJB() {
+        super(Metrica.class);
     }
 
     @Override
     protected EntityManager getEntityManager() {
         return this.em;
     }
-    
 }

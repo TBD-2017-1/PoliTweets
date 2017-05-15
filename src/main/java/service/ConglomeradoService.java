@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import facade.ConglomeradoFacade;
 import facade.KeywordFacade;
 import model.Conglomerado;
+import model.ConglomeradoMetrica;
 import model.Keyword;
 import model.Partido;
 import model.Politico;
@@ -55,6 +56,13 @@ public class ConglomeradoService {
     @Produces({"application/xml", "application/json"})
     public List<Politico> getPoliticos(@PathParam("id") Integer id) {
         return conglomeradoFacadeEJB.find(id).getListaPoliticos();
+    }
+    
+    @GET
+    @Path("{id}/metricas")
+    @Produces({"application/xml", "application/json"})
+    public List<ConglomeradoMetrica> getMetricas(@PathParam("id") Integer id) {
+        return conglomeradoFacadeEJB.find(id).getConglomeradoMetrica();
     }
 	
     @GET

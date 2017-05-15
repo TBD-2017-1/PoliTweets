@@ -17,6 +17,7 @@ import javax.persistence.*;
 public class Keyword implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    //Atributes
     @Id
     @Column(name="id", nullable=false, unique=true)
     private int id;
@@ -24,6 +25,7 @@ public class Keyword implements Serializable {
     @Column(name="value", nullable=false, unique=true, length=45)
     private String value;
 
+    //Relations
     @ManyToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
     @JoinTable
     (
@@ -51,7 +53,7 @@ public class Keyword implements Serializable {
     )
     private List<Politico> politicos_keywords;
 
-
+    //Methods
     public Keyword() {
     }
 

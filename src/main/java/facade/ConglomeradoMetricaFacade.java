@@ -20,5 +20,5 @@ public interface ConglomeradoMetricaFacade {
     public List<ConglomeradoMetrica> findRange(int[] range);
 
     public int count();
-
+    
 }
