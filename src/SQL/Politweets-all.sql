@@ -172,6 +172,7 @@ CREATE TABLE `metrica` (
 
 LOCK TABLES `metrica` WRITE;
 /*!40000 ALTER TABLE `metrica` DISABLE KEYS */;
+INSERT INTO `metrica` VALUES (1,'Aprobación'),(2,'Sentimiento Positivo'),(3,'Sentimiento Negativo'),(4,'Sentimiento Neutro');
 /*!40000 ALTER TABLE `metrica` ENABLE KEYS */;
 UNLOCK TABLES;
 
