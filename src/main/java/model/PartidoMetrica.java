@@ -35,6 +35,10 @@ public class PartidoMetrica implements Serializable {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="idpartido", referencedColumnName="id")
     private Partido partido_metrica;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idmetrica", referencedColumnName="id")
+    private Metrica metrica_partido;
 
     //Methods
     public PartidoMetrica() {
@@ -72,12 +76,21 @@ public class PartidoMetrica implements Serializable {
         this.lugar = lugar;
     }
 
-    public Partido getPartido() {
+    public Partido getPartido_metrica() {
         return this.partido_metrica;
     }
     
-    public void setPartido(Partido partido_metrica){
+    public void setPartido_metrica(Partido partido_metrica){
         this.partido_metrica = partido_metrica;
     }
+
+    public Metrica getMetrica_partido() {
+        return metrica_partido;
+    }
+
+    public void setMetrica_partido(Metrica metrica_partido) {
+        this.metrica_partido = metrica_partido;
+    }
+    
     
 }

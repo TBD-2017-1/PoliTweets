@@ -87,6 +87,16 @@ public class Conglomerado implements Serializable {
     public List<ConglomeradoMetrica> getConglomeradoMetrica() {
         return conglomeradoMetrica;
     }
+    
+    public List<ConglomeradoMetrica> getMetrica(String nombreMetrica){
+        List<ConglomeradoMetrica> metricas = new ArrayList<>();
+        for (ConglomeradoMetrica cm : conglomeradoMetrica) {
+            if(cm.getMetrica().getNombre().equals(nombreMetrica)){
+                metricas.add(cm);
+            }
+        }
+        return metricas;
+    }
 
     public List<Keyword> getKeywords() {
         return keywords;

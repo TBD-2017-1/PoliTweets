@@ -36,6 +36,10 @@ public class PoliticoMetrica implements Serializable {
     @JoinColumn(name="idpolitico", referencedColumnName="id")
     private Politico politico_metrica;
     
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idmetrica", referencedColumnName="id")
+    private Metrica metrica_politico;
+    
     //Methods
     public PoliticoMetrica() {
     }
@@ -79,5 +83,15 @@ public class PoliticoMetrica implements Serializable {
     public void setPolitico_metrica(Politico politico_metrica) {
         this.politico_metrica = politico_metrica;
     }
+
+    public Metrica getMetrica_politico() {
+        return metrica_politico;
+    }
+
+    public void setMetrica_politico(Metrica metrica_politico) {
+        this.metrica_politico = metrica_politico;
+    }
+    
+    
 
 }

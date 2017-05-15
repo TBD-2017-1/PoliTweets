@@ -38,7 +38,7 @@ public class ConglomeradoMetrica implements Serializable {
     
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="idmetrica", referencedColumnName="id")
-    private Metrica metrica;
+    private Metrica metrica_conglomerado;
 
     //Methods
     public ConglomeradoMetrica() {
@@ -85,11 +85,11 @@ public class ConglomeradoMetrica implements Serializable {
     }
 
     public Metrica getMetrica() {
-        return metrica;
+        return metrica_conglomerado;
     }
 
-    public void setMetrica(Metrica metrica) {
-        this.metrica = metrica;
+    public void setMetrica(Metrica metrica_conglomerado) {
+        this.metrica_conglomerado = metrica_conglomerado;
     }   
     
 }

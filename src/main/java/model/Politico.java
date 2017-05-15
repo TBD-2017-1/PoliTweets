@@ -98,7 +98,7 @@ public class Politico implements Serializable {
         this.partido_politico = partido_politico;
     }
     
-    public List<PoliticoMetrica> getPartidoMetrica(){
+    public List<PoliticoMetrica> getPoliticoMetrica(){
         return politicoMetrica;
     }
 
