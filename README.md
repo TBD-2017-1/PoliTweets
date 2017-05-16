@@ -24,8 +24,8 @@ donde `<path>` es la direccion donde lo instalaron en su computador
 
 Comprobar la base de datos con los comandos:
 ```
-	$ USE PoliTweets;
-	$ SHOW TABLES;
+$ USE PoliTweets;
+$ SHOW TABLES;
 ```
 
 Correr el comando: 
@@ -60,12 +60,12 @@ $ gradle war
 
 Luego en cambiar la dirección a /build/libs
 ```
-	$ cd build/libs/
+$ cd build/libs/
 ```
 
 Ejecutar comando:
 ```
-	$ asadmin deploy backend.war	
+$ asadmin deploy backend.war	
 ```
 o como sea que se llame el archivo .war que aparece en esa carpeta
 
