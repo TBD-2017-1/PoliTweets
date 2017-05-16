@@ -126,4 +126,11 @@ public class Keyword implements Serializable {
         }
         this.politicos_keywords.removeAll(toRemove);
     }
+    
+    public boolean isUnused(){
+        if(this.getConglomerados().isEmpty() && this.getPartidos().isEmpty() && this.getPoliticos().isEmpty()){
+            return true;
+        }
+        return false;
+    }
 }

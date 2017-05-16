@@ -122,6 +122,10 @@ public class ConglomeradoService {
         keyword.removeConglomerado(conglomerado);
         //Merge a BD
         conglomeradoFacadeEJB.edit(conglomerado);
-        keywordFacadeEJB.edit(keyword);
+        if(keyword.isUnused()){
+            keywordFacadeEJB.remove(keyword);
+        }else{
+            keywordFacadeEJB.edit(keyword);   
+        }
     }
 }

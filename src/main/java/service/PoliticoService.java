@@ -121,6 +121,10 @@ public class PoliticoService {
         keyword.removePolitico(politico);
         //Merge a BD
         politicoFacadeEJB.edit(politico);
-        keywordFacadeEJB.edit(keyword);
+        if(keyword.isUnused()){
+            keywordFacadeEJB.remove(keyword);
+        }else{
+            keywordFacadeEJB.edit(keyword);   
+        }
     }
 }

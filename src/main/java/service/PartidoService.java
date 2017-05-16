@@ -110,6 +110,10 @@ public class PartidoService {
         keyword.removePartido(partido);
         //Merge a BD
         partidoFacadeEJB.edit(partido);
-        keywordFacadeEJB.edit(keyword);
+        if(keyword.isUnused()){
+            keywordFacadeEJB.remove(keyword);
+        }else{
+            keywordFacadeEJB.edit(keyword);   
+        }
     }
 }
