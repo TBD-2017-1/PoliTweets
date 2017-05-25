@@ -14,6 +14,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import facade.MetricaFacade;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import model.ConglomeradoMetrica;
 import model.Metrica;
 import model.PartidoMetrica;
@@ -41,24 +44,24 @@ public class MetricaService {
     }
     
     @GET
-    @Path("{id}/conglomerados")
+    @Path("{metrica}/conglomerados")
     @Produces({"application/xml", "application/json"})
-    public List<ConglomeradoMetrica> getMetricaConglomerados(@PathParam("id") Integer id) {
-        return metricaFacadeEJB.find(id).getConglomeradoMetrica();
+    public List<ConglomeradoMetrica> getMetricaConglomerados(@PathParam("metrica") String nombreMetrica) {
+        return metricaFacadeEJB.findByName(nombreMetrica).getConglomeradoMetrica();
     }
     
     @GET
-    @Path("{id}/partidos")
+    @Path("{metrica}/partidos")
     @Produces({"application/xml", "application/json"})
-    public List<PartidoMetrica> getMetricaPartidos(@PathParam("id") Integer id) {
-        return metricaFacadeEJB.find(id).getPartidoMetrica();
+    public List<PartidoMetrica> getMetricaPartidos(@PathParam("metrica") String nombreMetrica) {
+        return metricaFacadeEJB.findByName(nombreMetrica).getPartidoMetrica();
     }
     
     @GET
-    @Path("{id}/politicos")
+    @Path("{metrica}/politicos")
     @Produces({"application/xml", "application/json"})
-    public List<PoliticoMetrica> getMetricaPoliticos(@PathParam("id") Integer id) {
-        return metricaFacadeEJB.find(id).getPoliticoMetrica();
+    public List<PoliticoMetrica> getMetricaPoliticos(@PathParam("metrica") String nombreMetrica) {
+        return metricaFacadeEJB.findByName(nombreMetrica).getPoliticoMetrica();
     }
 	
     @POST

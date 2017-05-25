@@ -26,12 +26,15 @@ public class Metrica implements Serializable {
     
     //Relations
     @OneToMany(mappedBy="metrica_conglomerado")
+    @OrderBy("fecha ASC")
     private List<ConglomeradoMetrica> conglomeradoMetrica;
     
     @OneToMany(mappedBy="metrica_partido")
+    @OrderBy("fecha ASC")
     private List<PartidoMetrica> partidoMetrica;
     
     @OneToMany(mappedBy="metrica_politico")
+    @OrderBy("fecha ASC")
     private List<PoliticoMetrica> politicoMetrica;
     
     //Methods
