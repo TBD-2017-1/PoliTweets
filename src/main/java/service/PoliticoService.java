@@ -36,9 +36,7 @@ public class PoliticoService {
 	
     @GET
     @Produces({"application/xml", "application/json"})
-    public List<Politico> findAll(){
-    	return politicoFacadeEJB.findAll();
-    }
+    public List<Politico> findAll(){return politicoFacadeEJB.findAll();}
 	
     @GET
     @Path("{id}")

@@ -5,13 +5,11 @@ import PoliTweetsCL.Core.Model.Tweet;
 import PoliTweetsCL.TextAPI.TextIndex;
 import facade.*;
 import model.*;
-import service.AdminService;
+import resourceClasses.ConfigHelper;
+import service.PoliticoService;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.ejb.*;
 import javax.inject.Inject;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -25,7 +23,7 @@ import java.util.logging.Logger;
 @Singleton
 public class CronServiceEJB {
 
-    private MongoDBController mongo = new MongoDBController("admin","x");
+    private MongoDBController mongo;
 
     private TextIndex textIndex = new TextIndex();
 
@@ -43,23 +41,35 @@ public class CronServiceEJB {
     private PartidoMetricaFacade partidoMetricaEJB;
     @EJB
     private PoliticoMetricaFacade politicoMetricaEJB;
+    @Inject
+    ConfigHelper config;
 
     private Date now;
 
-    Logger logger = Logger.getLogger(getClass().getName());
+    Logger logger = Logger.getLogger(CronServiceEJB.class.getName());
 
+    @PostConstruct
+    public void init() {
+        mongo = new MongoDBController(config.mongoGet("user"),config.mongoGet("pass"));
+    }
 
     //@Schedule(persistent=false) // Todos los dias a las 00:00
     //@Schedule(hour = "*", persistent = false) // cada hora
-    @Schedule(minute = "*", persistent = false) // cada minuto
+    @Schedule(minute = "*") // cada minuto
     public void doCRON(){
+        logger.info("Prueba 1");
+        logger.severe("Prueba 2");
+        logger.warning("Prueba 3");
+
         // Guardar el tiempo de la metrica
         now = Date.from(Instant.now().truncatedTo(ChronoUnit.HOURS));
 
         doIndexation();
+        /*
         doMetricasPoliticos();
         doMetricasPartidos();
         doMetricasConglomerados();
+        */
     }
 
     private void doIndexation(){
@@ -67,10 +77,13 @@ public class CronServiceEJB {
         Tweet[] tweets = mongo.getTextUnindexedTweets(true);
 
         // indexar en lucene
+        logger.info("Indexando tweets");
         int tweetsIndexados = textIndex.crearIndice(tweets);
         logger.info("Tweets indexados");
+
     }
 
+    /*
     private void doMetricasPoliticos(){
         List<Politico> politicos = politicoEJB.findAll();
         // para cada Politico
@@ -243,6 +256,6 @@ public class CronServiceEJB {
     }
 
 
-
+    */
 }
 
