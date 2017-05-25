@@ -57,19 +57,20 @@ public class CronServiceEJB {
     //@Schedule(hour = "*", persistent = false) // cada hora
     @Schedule(minute = "*") // cada minuto
     public void doCRON(){
-        logger.info("Prueba 1");
-        logger.severe("Prueba 2");
-        logger.warning("Prueba 3");
+        try {
+            // Guardar el tiempo de la metrica
+            now = Date.from(Instant.now().truncatedTo(ChronoUnit.HOURS));
 
-        // Guardar el tiempo de la metrica
-        now = Date.from(Instant.now().truncatedTo(ChronoUnit.HOURS));
+            logger.info("Indexando ultimos tweets");
+            doIndexation();
 
-        doIndexation();
-        /*
-        doMetricasPoliticos();
-        doMetricasPartidos();
-        doMetricasConglomerados();
-        */
+            doMetricasPoliticos();
+            doMetricasPartidos();
+            doMetricasConglomerados();
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     private void doIndexation(){
@@ -77,14 +78,11 @@ public class CronServiceEJB {
         Tweet[] tweets = mongo.getTextUnindexedTweets(true);
 
         // indexar en lucene
-        logger.info("Indexando tweets");
         int tweetsIndexados = textIndex.crearIndice(tweets);
-        logger.info("Tweets indexados");
-
     }
 
-    /*
-    private void doMetricasPoliticos(){
+
+    private void doMetricasPoliticos() throws Exception {
         List<Politico> politicos = politicoEJB.findAll();
         // para cada Politico
         for (Politico politico:politicos) {
@@ -141,7 +139,8 @@ public class CronServiceEJB {
         }
     }
 
-    private void doMetricasPartidos(){
+
+    private void doMetricasPartidos() throws Exception {
         List<Partido> partidos = partidoEJB.findAll();
         // para cada partido
         for (Partido partido:partidos) {
@@ -199,7 +198,7 @@ public class CronServiceEJB {
         }
     }
 
-    private void doMetricasConglomerados(){
+    private void doMetricasConglomerados() throws Exception {
         List<Conglomerado> conglomerados = conglomeradoEJB.findAll();
         // para cada Conglomerado
         for (Conglomerado congl:conglomerados) {
@@ -254,8 +253,5 @@ public class CronServiceEJB {
         }
 
     }
-
-
-    */
 }
 

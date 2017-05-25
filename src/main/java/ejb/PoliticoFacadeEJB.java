@@ -8,6 +8,8 @@ import facade.AbstractFacade;
 import facade.PoliticoFacade;
 import model.Politico;
 
+import java.util.logging.Logger;
+
 @Stateless
 public class PoliticoFacadeEJB extends AbstractFacade<Politico> implements PoliticoFacade {	
 	
