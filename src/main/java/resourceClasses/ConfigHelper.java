@@ -11,6 +11,8 @@ public class ConfigHelper {
 	//Atributes
 	private Properties mongo;
 	private Properties mysql;
+	private Properties app;
+
 
 	//Methods
 	public ConfigHelper() {
@@ -22,8 +24,13 @@ public class ConfigHelper {
 
 			// cargar configuracion de mysql
 			mysql = new Properties();
-			inputStream = getClass().getClassLoader().getResourceAsStream("mongo.properties");
+			inputStream = getClass().getClassLoader().getResourceAsStream("mysql.properties");
 			mysql.load(inputStream);
+
+			// cargar configuracion de politweets
+			app = new Properties();
+			inputStream = getClass().getClassLoader().getResourceAsStream("app.properties");
+			app.load(inputStream);
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}
@@ -31,6 +38,9 @@ public class ConfigHelper {
 
 	public Properties getMongo() {return mongo;}
 	public Properties getMysql() {return mysql;}
+	public Properties getApp() {return app;}
+
 	public String mongoGet(String property){return mongo.getProperty(property);}
 	public String mysqlGet(String property){return mysql.getProperty(property);}
+	public String appGet(String property){return app.getProperty(property);}
 }

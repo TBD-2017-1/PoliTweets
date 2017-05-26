@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -16,15 +17,22 @@ import javax.ws.rs.core.Response;
 
 import facade.AdminFacade;
 import model.Admin;
+import resourceClasses.DaemonClass;
 
 @Path("/daemon")
 public class DaemonService {
-	
+    @Inject
+    DaemonClass daemon;
+
     @GET
     @Path("{status}")
     @Produces({"application/xml", "application/json"})
     public Response setDaemonStatus(@PathParam("status") boolean status){
-    	//To do code
+    	if(status){
+    	    daemon.start();
+        }else {
+    	    daemon.stop();
+        }
         return Response.status(Response.Status.OK).build();
     }
 	
