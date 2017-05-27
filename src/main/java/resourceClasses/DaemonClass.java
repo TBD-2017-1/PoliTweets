@@ -59,14 +59,19 @@ public class DaemonClass {
         }
     }
 
-    public void toggle(){
+    public String toggle(){
         if(proc!=null) {
             proc.destroy();
             proc = null;
+            return "off";
         }else{
             start();
+            return "on";
         }
+    }
 
+    public String getStatus(){
+        return (proc!=null)?"on":"off";
     }
 
 
