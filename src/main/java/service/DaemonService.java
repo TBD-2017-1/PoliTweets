@@ -25,6 +25,14 @@ public class DaemonService {
     DaemonClass daemon;
 
     @GET
+    @Path("toggle")
+    @Produces({"application/xml", "application/json"})
+    public Response toggleDaemon(){
+        daemon.toggle();
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
     @Path("{status}")
     @Produces({"application/xml", "application/json"})
     public Response setDaemonStatus(@PathParam("status") boolean status){

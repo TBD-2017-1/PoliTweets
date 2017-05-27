@@ -11,6 +11,7 @@ repositories {
 	  
 dependencies{
 	compile name: 'textapi-1.2'
+	compile name: 'collector-2.0'
 
 	compile 'javax:javaee-api:7.0'
 	compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'

@@ -1,5 +1,6 @@
 package resourceClasses;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import java.io.InputStream;
@@ -15,7 +16,8 @@ public class ConfigHelper {
 
 
 	//Methods
-	public ConfigHelper() {
+	@PostConstruct
+	public void init(){
 		try {
 			// cargar configuracion de mongo
 			mongo = new Properties();
@@ -35,6 +37,8 @@ public class ConfigHelper {
 			ex.printStackTrace();
 		}
 	}
+
+
 
 	public Properties getMongo() {return mongo;}
 	public Properties getMysql() {return mysql;}

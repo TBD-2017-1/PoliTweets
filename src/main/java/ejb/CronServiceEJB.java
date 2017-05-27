@@ -86,6 +86,9 @@ public class CronServiceEJB {
         List<Politico> politicos = politicoEJB.findAll();
         // para cada Politico
         for (Politico politico:politicos) {
+
+            logger.info("Metrica de "+politico.getApellido());
+
             // seleccionar las keyword de politico
             List<Keyword> keywords = politico.getKeywords();
             List<String> kwArray = new ArrayList<>();
@@ -98,6 +101,9 @@ public class CronServiceEJB {
 
             // hacer busqueda
             int hits = textIndex.buscarKeywords(kwArray.toArray(new String[0]));
+
+            logger.info("Hits: "+String.valueOf(hits));
+
 
             // obtener resultados de la busqueda anterior
             int positiveCount = textIndex.getPositiveCount();
