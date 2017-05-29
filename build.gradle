@@ -10,9 +10,13 @@ repositories {
 }
 	  
 dependencies{
-	compile name: 'textapi-1.2'
-	compile name: 'collector-2.0'
 
+	compile name: 'collector-2.1'
+
+	compile group: 'org.apache.lucene', name: 'lucene-core', version: '6.5.1'
+	compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '6.5.1'
+	compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '6.5.1'
+	compile group: 'org.apache.lucene', name: 'lucene-codecs', version: '6.5.1'
 	compile 'javax:javaee-api:7.0'
 	compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
 	compile 'mysql:mysql-connector-java:5.1.30'

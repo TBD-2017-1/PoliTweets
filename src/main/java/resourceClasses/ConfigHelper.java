@@ -10,8 +10,6 @@ import java.util.Properties;
 @Singleton
 public class ConfigHelper {
 	//Atributes
-	private Properties mongo;
-	private Properties mysql;
 	private Properties app;
 
 
@@ -19,32 +17,18 @@ public class ConfigHelper {
 	@PostConstruct
 	public void init(){
 		try {
-			// cargar configuracion de mongo
-			mongo = new Properties();
-			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mongo.properties");
-			mongo.load(inputStream);
-
-			// cargar configuracion de mysql
-			mysql = new Properties();
-			inputStream = getClass().getClassLoader().getResourceAsStream("mysql.properties");
-			mysql.load(inputStream);
-
 			// cargar configuracion de politweets
 			app = new Properties();
-			inputStream = getClass().getClassLoader().getResourceAsStream("app.properties");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("app.properties");
 			app.load(inputStream);
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}
 	}
 
-
-
-	public Properties getMongo() {return mongo;}
-	public Properties getMysql() {return mysql;}
-	public Properties getApp() {return app;}
-
-	public String mongoGet(String property){return mongo.getProperty(property);}
-	public String mysqlGet(String property){return mysql.getProperty(property);}
-	public String appGet(String property){return app.getProperty(property);}
+	public Properties getPropertiesObj(){return app;}
+	public String mongoGet(String property){return app.getProperty("mongo."+property);}
+	public String mysqlGet(String property){return app.getProperty("mysql."+property);}
+	public String appGet(String property){return app.getProperty("app."+property);}
+	public String get(String property){return app.getProperty(property);}
 }

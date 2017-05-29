@@ -1,7 +1,5 @@
 package resourceClasses;
 
-import ejb.CronServiceEJB;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
@@ -27,6 +25,7 @@ public class DaemonClass {
     //Atributes
     ProcessBuilder pb;
     Process proc = null;
+    String path;
 
     //Methods
 
@@ -37,7 +36,7 @@ public class DaemonClass {
         File classesPath = new File(packagePath.getParent());
         String webInfPath = classesPath.getParent();
 
-        String path = webInfPath+"/lib/"+config.appGet("collector");
+        path = webInfPath+"/lib/"+config.appGet("collector");
 
         logger.info("Collector: "+path);
         pb = new ProcessBuilder("java","-jar",path);
@@ -46,6 +45,7 @@ public class DaemonClass {
     public void start(){
         try {
             stop();
+            pb = new ProcessBuilder("java","-jar",path);
             proc = pb.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,7 +66,7 @@ public class DaemonClass {
             return "off";
         }else{
             start();
-            return "on";
+            return getStatus();
         }
     }
 
