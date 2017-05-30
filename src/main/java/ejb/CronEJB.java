@@ -54,13 +54,13 @@ public class CronEJB {
     }
 
     public void doIndex(){
-        logger.info("Doing CRON: Indexing");
+        logger.info("Doing CRON: Indexando");
         try {
             // obtener tweets no indexados
             Tweet[] tweets = mongo.getTextUnindexedTweets(true);
 
             // indexar en lucene
-            int tweetsIndexados = textIndex.crearIndice(tweets);
+            int tweetsIndexados = textIndex.addTweets(tweets);
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -83,6 +83,9 @@ public class CronEJB {
             logger.severe("Error al crear metrica: "+ Arrays.toString(ex.getStackTrace()));
             ex.printStackTrace();
         }
+
+        logger.info("Doing CRON: Nuevo indice");
+        textIndex.nuevoIndice(false);
     }
 
 
@@ -106,19 +109,38 @@ public class CronEJB {
             // hacer busqueda
             int hits = textIndex.buscarKeywords(kwArray.toArray(new String[0]));
 
-            logger.info("Hits: "+String.valueOf(hits));
-
 
             // obtener resultados de la busqueda anterior
             int positiveCount = textIndex.getPositiveCount();
             int negativeCount = textIndex.getNegativeCount();
             int neutralCount = textIndex.getNeutralCount();
-            float aprobacion = 50 + 50 * (positiveCount-negativeCount)/(float)hits; // 50% base + (%pos - %neg)/2
+            float aprobacion;
+            if(hits != 0){
+                aprobacion = 50 + 50 * (positiveCount-negativeCount)/(float)hits; // 50% base + (%pos - %neg)/2
+            }else{
+                aprobacion = 50;
+            }
+
+            logger.info(String.format(
+                    "Metrica de %s\n" +
+                            "Hits: %s\n" +
+                            "Positivos: %d\n" +
+                            "Negativos: %d\n" +
+                            "Neutros: %d\n" +
+                            "Aprobacion: %f",
+                    politico.getApellido(),
+                    String.valueOf(hits),
+                    positiveCount,
+                    negativeCount,
+                    neutralCount,
+                    aprobacion
+            ));
 
             // guardar metrica en BD
 
             PoliticoMetrica registro = new PoliticoMetrica();
-            registro.setMetrica_politico(metricaEJB.findByName("aprobacion"));
+            Metrica metrica = metricaEJB.findByName("aprobacion");
+            registro.setMetrica_politico(metrica);
             registro.setPolitico_metrica(politico);
             registro.setFecha(now);
             registro.setValor(aprobacion);
