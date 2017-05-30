@@ -5,7 +5,6 @@ import ejb.CronEJB;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 
-;
 
 @Path("/cron")
 public class CronService {

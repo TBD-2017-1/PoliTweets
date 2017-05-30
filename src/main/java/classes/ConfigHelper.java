@@ -1,4 +1,4 @@
-package resourceClasses;
+package classes;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;

@@ -1,14 +1,12 @@
-package resourceClasses;
+package classes;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
-import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.logging.Logger;
 
 @Singleton

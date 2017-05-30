@@ -3,25 +3,23 @@ package ejb;
 
 import PoliTweetsCL.Core.BD.MongoDBController;
 import PoliTweetsCL.Core.Model.Tweet;
+import PoliTweetsCL.TextAPI.TextIndex;
 import facade.*;
 import model.*;
-import resourceClasses.ConfigHelper;
-import service.PoliticoService;
+import classes.ConfigHelper;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.inject.Inject;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Stateless
+@Singleton
 public class CronEJB {
     @EJB
     private ConglomeradoFacade conglomeradoEJB;
@@ -44,8 +42,7 @@ public class CronEJB {
 
     private MongoDBController mongo;
 
-    @EJB
-    private TextIndexEJB textIndex;
+    private TextIndex textIndex;
 
     Logger logger = Logger.getLogger(getClass().getName());
 
@@ -53,6 +50,7 @@ public class CronEJB {
     public void init() {
         // connect to mongo
         mongo = new MongoDBController(config.getPropertiesObj());
+        textIndex = new TextIndex();
     }
 
     public void doIndex(){
